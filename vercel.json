@@ -1,0 +1,15 @@
+{
+  "services": {
+    "frontend": {
+      "root": "frontend",
+      "build": "npm run build",
+      "framework": "nextjs"
+    },
+    "backend": {
+      "root": "backend",
+      "build": "pip install -r requirements.txt",
+      "start": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+      "runtime": "python3"
+    }
+  }
+}
