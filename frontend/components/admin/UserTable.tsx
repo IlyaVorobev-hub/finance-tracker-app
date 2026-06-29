@@ -21,9 +21,9 @@ import { useToast } from "@/components/ui/use-toast";
 interface User {
   id: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  full_name: string;
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
   role: string;
   is_active: boolean;
   created_at: string;
@@ -158,7 +158,7 @@ export function UserTable({
                         </span>
                       </div>
                       <div>
-                        <div className="font-medium">{user.full_name}</div>
+                        <div className="font-medium">{user.full_name || user.email}</div>
                       </div>
                     </div>
                   </TableCell>
