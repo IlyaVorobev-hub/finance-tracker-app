@@ -78,7 +78,7 @@ export default function HomeworkDetailClient({
   const openEditDialog = useCallback(() => {
     if (!homework) return;
     setEditTitle(homework.title);
-    setEditDescription(homework.description);
+    setEditDescription(homework.description || "");
     setEditType(homework.type);
     setEditDueDate(homework.due_date);
     setEditGrade(homework.grade !== null ? String(homework.grade) : "");
