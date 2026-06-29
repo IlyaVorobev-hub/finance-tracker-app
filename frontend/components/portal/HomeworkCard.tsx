@@ -10,7 +10,7 @@ interface HomeworkCardProps {
   dueDate: string;
   status: "pending" | "submitted" | "graded";
   grade: string | null;
-  files: { name: string; url: string }[];
+  files: { name?: string; file_name?: string; url?: string; file_url?: string }[];
 }
 
 const statusConfig = {
