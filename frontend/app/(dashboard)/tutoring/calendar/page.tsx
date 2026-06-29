@@ -9,19 +9,19 @@ export default function CalendarPage() {
   const startDate = format(startOfMonth(now), "yyyy-MM-dd");
   const endDate = format(endOfMonth(addMonths(now, 2)), "yyyy-MM-dd");
 
-  const { lessons, isLoading, refetch } = useCalendarLessons(startDate, endDate);
+  const { data: lessons, isLoading, refetch } = useCalendarLessons(startDate, endDate);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Calendar</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Календарь</h1>
         <p className="text-muted-foreground">
-          View and manage your tutoring schedule
+          Просмотр и управление расписанием репетиторства
         </p>
       </div>
 
       <CalendarView
-        lessons={lessons}
+        lessons={lessons ?? []}
         isLoading={isLoading}
         onLessonSaved={refetch}
       />

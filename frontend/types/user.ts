@@ -1,14 +1,15 @@
 export interface User {
   id: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  full_name: string;
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
   avatar_url?: string;
-  role: "student" | "parent" | "admin";
+  role: "super_admin" | "admin" | "tutor" | "student";
   is_active: boolean;
+  email_verified: boolean;
   created_at: string;
-  updated_at: string;
+  updated_at?: string;
 }
 
 export interface LoginCredentials {

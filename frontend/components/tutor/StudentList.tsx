@@ -32,7 +32,7 @@ export function StudentList({ students, onEdit, onDelete }: StudentListProps) {
   if (students.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-muted-foreground">No students found.</p>
+        <p className="text-muted-foreground">Ученики не найдены.</p>
       </div>
     );
   }
@@ -43,11 +43,11 @@ export function StudentList({ students, onEdit, onDelete }: StudentListProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Subject</TableHead>
-              <TableHead>Rate</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>Имя</TableHead>
+              <TableHead>Предмет</TableHead>
+              <TableHead>Ставка</TableHead>
+              <TableHead>Статус</TableHead>
+              <TableHead className="text-right">Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

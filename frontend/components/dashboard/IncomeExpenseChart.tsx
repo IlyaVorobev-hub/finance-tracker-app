@@ -40,9 +40,9 @@ function CustomTooltip({
             className="h-3 w-3 rounded-full"
             style={{ backgroundColor: entry.color }}
           />
-          <span className="text-muted-foreground">{entry.name}:</span>
+          <span className="text-muted-foreground">{entry.name === "Income" ? "Доход" : "Расход"}:</span>
           <span className="font-medium">
-            ${entry.value.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+            {entry.value.toLocaleString("ru-RU")} ₽
           </span>
         </div>
       ))}
@@ -56,8 +56,8 @@ export function IncomeExpenseChart({ data = [], isLoading }: IncomeExpenseChartP
       data.map((item) => ({
         ...item,
         month: item.month,
-        Income: item.income,
-        Expenses: item.expenses,
+        Доход: item.income,
+        Расход: item.expenses,
       })),
     [data]
   );
@@ -66,7 +66,7 @@ export function IncomeExpenseChart({ data = [], isLoading }: IncomeExpenseChartP
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Income vs Expenses</CardTitle>
+          <CardTitle className="text-lg">Доходы и расходы</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[300px] items-center justify-center">
@@ -80,12 +80,12 @@ export function IncomeExpenseChart({ data = [], isLoading }: IncomeExpenseChartP
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Income vs Expenses</CardTitle>
+        <CardTitle className="text-lg">Доходы и расходы</CardTitle>
       </CardHeader>
       <CardContent>
         {data.length === 0 ? (
           <div className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
-            No data available
+            Нет данных
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={300}>
@@ -101,18 +101,18 @@ export function IncomeExpenseChart({ data = [], isLoading }: IncomeExpenseChartP
                 tick={{ fontSize: 12 }}
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                tickFormatter={(value) => `${(value / 1000).toFixed(0)}k ₽`}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Bar
-                dataKey="Income"
+                dataKey="Доход"
                 fill="#10b981"
                 radius={[4, 4, 0, 0]}
                 maxBarSize={40}
               />
               <Bar
-                dataKey="Expenses"
+                dataKey="Расход"
                 fill="#ef4444"
                 radius={[4, 4, 0, 0]}
                 maxBarSize={40}

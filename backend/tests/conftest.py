@@ -1,4 +1,3 @@
-import asyncio
 import uuid
 from collections.abc import AsyncGenerator
 from datetime import date, time, timedelta
@@ -17,13 +16,6 @@ from app.models.student import Student
 from app.models.user import User, UserProfile
 from app.security.jwt import create_access_token
 from app.security.password import hash_password
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
 
 
 @pytest.fixture
@@ -66,6 +58,7 @@ async def test_user(db_session: AsyncSession) -> User:
         password_hash=hash_password("TestPass123!"),
         role="tutor",
         is_active=True,
+        email_verified=False,
     )
     db_session.add(user)
     profile = UserProfile(
@@ -101,6 +94,34 @@ async def test_admin(db_session: AsyncSession) -> User:
     await db_session.commit()
     await db_session.refresh(user)
     return user
+
+
+@pytest.fixture
+async def test_super_admin(db_session: AsyncSession) -> User:
+    user = User(
+        id=uuid.uuid4(),
+        email="superadmin@test.com",
+        password_hash=hash_password("SuperAdminPass123!"),
+        role="super_admin",
+        is_active=True,
+    )
+    db_session.add(user)
+    profile = UserProfile(
+        id=uuid.uuid4(),
+        user_id=user.id,
+        first_name="Super",
+        last_name="Admin",
+    )
+    db_session.add(profile)
+    await db_session.commit()
+    await db_session.refresh(user)
+    return user
+
+
+@pytest.fixture
+def super_admin_headers(test_super_admin: User) -> dict:
+    token = create_access_token({"sub": str(test_super_admin.id)})
+    return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.fixture

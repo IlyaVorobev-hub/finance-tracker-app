@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, EmailStr
 
@@ -7,19 +8,19 @@ from pydantic import BaseModel, EmailStr
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    role: str = "tutor"
+    role: Literal["super_admin", "admin", "tutor", "student"] = "tutor"
     first_name: str
     last_name: str
 
 
 class UserUpdate(BaseModel):
     email: EmailStr | None = None
-    role: str | None = None
+    role: Literal["super_admin", "admin", "tutor", "student"] | None = None
     is_active: bool | None = None
 
 
 class UserRoleUpdate(BaseModel):
-    role: str
+    role: Literal["super_admin", "admin", "tutor", "student"]
 
 
 class UserStatusUpdate(BaseModel):
@@ -31,6 +32,7 @@ class UserResponse(BaseModel):
     email: str
     role: str
     is_active: bool
+    email_verified: bool
     created_at: datetime
 
     model_config = {"from_attributes": True}

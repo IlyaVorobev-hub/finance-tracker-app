@@ -64,6 +64,8 @@ class TestPortalAPI:
         data = response.json()
         assert "lessons" in data
         assert "total" in data
+        assert "page" in data
+        assert "per_page" in data
 
     async def test_get_payments(self, client: AsyncClient, test_student_user, test_portal_student):
         from app.security.jwt import create_access_token
@@ -107,3 +109,33 @@ class TestPortalAPI:
             headers=auth_headers,
         )
         assert response.status_code == 403
+
+    async def test_portal_student_not_found(self, client: AsyncClient, db_session):
+        import uuid
+
+        from app.models.user import User, UserProfile
+        from app.security.jwt import create_access_token
+        from app.security.password import hash_password
+
+        user = User(
+            id=uuid.uuid4(),
+            email="no_student@test.com",
+            password_hash=hash_password("Pass123!"),
+            role="student",
+            is_active=True,
+        )
+        db_session.add(user)
+        profile = UserProfile(
+            id=uuid.uuid4(),
+            user_id=user.id,
+            first_name="No",
+            last_name="Student",
+        )
+        db_session.add(profile)
+        await db_session.commit()
+
+        token = create_access_token({"sub": str(user.id)})
+        hdrs = {"Authorization": f"Bearer {token}"}
+
+        response = await client.get("/api/v1/portal/schedule", headers=hdrs)
+        assert response.status_code == 404

@@ -7,9 +7,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GraduationCap, Calendar, BookOpen } from "lucide-react";
 
 const tabs = [
-  { value: "students", label: "Students", href: "/tutoring/students", icon: GraduationCap },
-  { value: "calendar", label: "Calendar", href: "/tutoring/calendar", icon: Calendar, disabled: true },
-  { value: "homework", label: "Homework", href: "/homework", icon: BookOpen, disabled: true },
+  { value: "students", label: "Ученики", href: "/tutoring/students", icon: GraduationCap },
+  { value: "calendar", label: "Календарь", href: "/tutoring/calendar", icon: Calendar, disabled: true },
+  { value: "homework", label: "Домашние задания", href: "/homework", icon: BookOpen, disabled: true },
 ];
 
 export default function TutoringLayout({
@@ -24,7 +24,7 @@ export default function TutoringLayout({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Tutoring</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Репетиторство</h1>
       </div>
       <Tabs value={currentTab}>
         <TabsList>

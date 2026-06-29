@@ -21,13 +21,13 @@ interface PortalLesson {
 interface PortalHomework {
   id: string;
   student_id: string;
-  lesson_id: string;
+  tutor_id?: string;
   title: string;
-  description: string;
+  description?: string;
   due_date: string;
   status: "pending" | "submitted" | "graded";
-  grade: string | null;
-  files: { name: string; url: string }[];
+  grade?: string | null;
+  files: { id?: string; file_name: string; file_url: string; file_type?: string; file_size?: number }[];
   created_at: string;
 }
 
@@ -90,13 +90,16 @@ export function usePortalSchedule() {
 }
 
 export function usePortalHomework() {
-  const { data, isLoading, error, refetch } = useFetch<{ homework: PortalHomework[] }>(
-    () => apiClient.get<{ homework: PortalHomework[] }>("/portal/homework").then((res) => res.data),
+  const { data, isLoading, error, refetch } = useFetch<PortalHomework[]>(
+    () => apiClient.get<PortalHomework[]>("/portal/homework").then((res) => {
+      const hw = res.data;
+      return Array.isArray(hw) ? hw : (hw as unknown as { homework: PortalHomework[] }).homework ?? [];
+    }),
     []
   );
 
   return {
-    homework: data?.homework ?? [],
+    homework: data ?? [],
     isLoading,
     error,
     refetch,

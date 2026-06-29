@@ -13,7 +13,7 @@ export interface Transaction {
   date: string;
   category_id: string;
   type: "income" | "expense";
-  description: string;
+  description?: string | null;
   category?: Category;
   created_at: string;
 }
@@ -23,6 +23,7 @@ export interface DashboardData {
   month_income: number;
   month_expenses: number;
   recent_transactions: Transaction[];
+  monthly_trend?: { month: string; income: number; expenses: number }[];
 }
 
 export interface TransactionListResponse {

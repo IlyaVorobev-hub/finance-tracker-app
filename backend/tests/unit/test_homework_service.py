@@ -80,7 +80,7 @@ class TestHomeworkService:
             "type": "application/pdf",
             "size": 1024,
         }
-        hf = await homework_service.add_file(db_session, test_homework.id, file_data)
+        hf = await homework_service.add_file(db_session, test_homework.id, test_user.id, file_data)
         assert hf.file_url == file_data["url"]
         assert hf.file_name == file_data["name"]
         assert hf.file_size == 1024
@@ -92,7 +92,7 @@ class TestHomeworkService:
             "type": "application/pdf",
             "size": 1024,
         }
-        hf = await homework_service.add_file(db_session, test_homework.id, file_data)
+        hf = await homework_service.add_file(db_session, test_homework.id, test_user.id, file_data)
         await homework_service.remove_file(db_session, hf.id, test_user.id)
         hw = await homework_service.get_homework(db_session, test_homework.id, test_user.id)
         assert len(hw.files) == 0

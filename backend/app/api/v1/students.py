@@ -29,6 +29,7 @@ async def list_students(
 ):
     if current_user.role == "admin":
         from sqlalchemy import func, or_, select
+
         from app.models.student import Student
 
         query = select(Student)
@@ -38,11 +39,12 @@ async def list_students(
             query = query.where(Student.status == status_filter)
             count_query = count_query.where(Student.status == status_filter)
         if search:
+            escaped_search = search.replace("%", "\\%").replace("_", "\\_")
             search_filter = or_(
-                Student.first_name.ilike(f"%{search}%"),
-                Student.last_name.ilike(f"%{search}%"),
-                Student.email.ilike(f"%{search}%"),
-                Student.subject.ilike(f"%{search}%"),
+                Student.first_name.ilike(f"%{escaped_search}%"),
+                Student.last_name.ilike(f"%{escaped_search}%"),
+                Student.email.ilike(f"%{escaped_search}%"),
+                Student.subject.ilike(f"%{escaped_search}%"),
             )
             query = query.where(search_filter)
             count_query = count_query.where(search_filter)
@@ -99,7 +101,7 @@ async def create_student(
     try:
         student = await student_service.create_student(db, current_user.id, data)
         return student
-    except Exception as e:
+    except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
@@ -111,6 +113,15 @@ async def update_student(
     current_user: User = Depends(require_role("tutor", "admin")),
 ):
     try:
+        if current_user.role == "admin":
+            student = await student_service.get_student_by_id(db, student_id)
+            from sqlalchemy import select as sa_select
+            update_data = data.model_dump(exclude_unset=True)
+            for field, value in update_data.items():
+                setattr(student, field, value)
+            await db.flush()
+            await db.refresh(student)
+            return student
         student = await student_service.update_student(db, student_id, current_user.id, data)
         return student
     except ValueError as e:
@@ -124,6 +135,11 @@ async def delete_student(
     current_user: User = Depends(require_role("admin")),
 ):
     try:
+        if current_user.role == "admin":
+            student = await student_service.get_student_by_id(db, student_id)
+            await db.delete(student)
+            await db.flush()
+            return
         await student_service.delete_student(db, student_id, current_user.id)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -137,6 +153,12 @@ async def update_student_status(
     current_user: User = Depends(require_role("tutor", "admin")),
 ):
     try:
+        if current_user.role == "admin":
+            student = await student_service.get_student_by_id(db, student_id)
+            student.status = data.status
+            await db.flush()
+            await db.refresh(student)
+            return student
         student = await student_service.update_student_status(
             db, student_id, current_user.id, data.status
         )
@@ -154,9 +176,26 @@ async def get_student_lessons(
     current_user: User = Depends(get_current_active_user),
 ):
     try:
-        lessons, total = await student_service.get_student_lessons(
-            db, student_id, current_user.id, page, per_page
-        )
+        if current_user.role == "admin":
+            await student_service.get_student_by_id(db, student_id)
+            from sqlalchemy import func as sa_func, select as sa_select
+            from app.models.lesson import Lesson
+
+            query = sa_select(Lesson).where(Lesson.student_id == student_id)
+            count_query = sa_select(sa_func.count(Lesson.id)).where(Lesson.student_id == student_id)
+
+            total_result = await db.execute(count_query)
+            total = total_result.scalar_one()
+
+            query = query.order_by(Lesson.date.desc(), Lesson.start_time.desc())
+            query = query.offset((page - 1) * per_page).limit(per_page)
+
+            result = await db.execute(query)
+            lessons = list(result.scalars().all())
+        else:
+            lessons, total = await student_service.get_student_lessons(
+                db, student_id, current_user.id, page, per_page
+            )
         from app.schemas.lesson import LessonResponse
 
         return {
@@ -176,9 +215,32 @@ async def get_student_payments(
     current_user: User = Depends(get_current_active_user),
 ):
     try:
-        payments = await student_service.get_student_payments(
-            db, student_id, current_user.id
-        )
+        if current_user.role == "admin":
+            await student_service.get_student_by_id(db, student_id)
+            from sqlalchemy import select as sa_select
+            from app.models.lesson import Lesson
+
+            result = await db.execute(
+                sa_select(Lesson).where(
+                    Lesson.student_id == student_id,
+                    Lesson.status == "completed",
+                )
+            )
+            lessons = list(result.scalars().all())
+            payments = []
+            for lesson in lessons:
+                payments.append(
+                    {
+                        "lesson_id": str(lesson.id),
+                        "date": lesson.date,
+                        "price": float(lesson.price),
+                        "payment_status": lesson.payment_status,
+                    }
+                )
+        else:
+            payments = await student_service.get_student_payments(
+                db, student_id, current_user.id
+            )
         return {"payments": payments}
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

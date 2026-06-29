@@ -52,7 +52,7 @@ export function HomeworkCard({ homework, className }: HomeworkCardProps) {
             {homework.files.length > 0 && (
               <span className="flex items-center gap-1">
                 <FileText className="h-3 w-3" />
-                {homework.files.length} {homework.files.length === 1 ? "file" : "files"}
+                {homework.files.length} {homework.files.length === 1 ? "файл" : "файлов"}
               </span>
             )}
           </div>

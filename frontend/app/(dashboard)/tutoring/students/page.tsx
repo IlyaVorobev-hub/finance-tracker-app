@@ -19,10 +19,10 @@ import { Loader2, Plus, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Student, CreateStudentData } from "@/types/student";
 
 const statusFilters = [
-  { value: "", label: "All" },
-  { value: "active", label: "Active" },
-  { value: "paused", label: "Paused" },
-  { value: "finished", label: "Finished" },
+  { value: "", label: "Все" },
+  { value: "active", label: "Активные" },
+  { value: "paused", label: "Приостановлены" },
+  { value: "finished", label: "Завершены" },
 ];
 
 export default function StudentsPage() {
@@ -88,12 +88,12 @@ export default function StudentsPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Students</h2>
-          <p className="text-sm text-muted-foreground">{total} total students</p>
+          <h2 className="text-lg font-semibold">Ученики</h2>
+          <p className="text-sm text-muted-foreground">{total} всего учеников</p>
         </div>
         <Button onClick={() => setFormOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Student
+          Добавить ученика
         </Button>
       </div>
 
@@ -101,7 +101,7 @@ export default function StudentsPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search students..."
+            placeholder="Поиск учеников..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -142,7 +142,7 @@ export default function StudentsPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Page {page} of {totalPages}
+            Страница {page} из {totalPages}
           </p>
           <div className="flex gap-2">
             <Button
@@ -176,10 +176,10 @@ export default function StudentsPage() {
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Student</DialogTitle>
+            <DialogTitle>Удалить ученика</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete {deletingStudent?.first_name}{" "}
-              {deletingStudent?.last_name}? This action cannot be undone.
+              Вы уверены, что хотите удалить {deletingStudent?.first_name}{" "}
+              {deletingStudent?.last_name}? Это действие нельзя отменить.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -188,7 +188,7 @@ export default function StudentsPage() {
               onClick={() => setDeleteDialogOpen(false)}
               disabled={isDeleting}
             >
-              Cancel
+              Отмена
             </Button>
             <Button
               variant="destructive"
@@ -196,7 +196,7 @@ export default function StudentsPage() {
               disabled={isDeleting}
             >
               {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Delete
+              Удалить
             </Button>
           </DialogFooter>
         </DialogContent>

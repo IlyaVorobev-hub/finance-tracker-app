@@ -48,9 +48,9 @@ export function CategoryManager({
     const result = await onCreateCategory({ name: newCategoryName.trim(), type: activeTab });
     if (result) {
       setNewCategoryName("");
-      toast({ title: "Category created", description: `"${result.name}" has been added.` });
+      toast({ title: "Категория создана", description: `"${result.name}" добавлена.` });
     } else {
-      toast({ title: "Error", description: "Failed to create category.", variant: "destructive" });
+      toast({ title: "Ошибка", description: "Не удалось создать категорию.", variant: "destructive" });
     }
     setIsCreating(false);
   };
@@ -59,9 +59,9 @@ export function CategoryManager({
     setDeletingId(category.id);
     const success = await onDeleteCategory(category.id);
     if (success) {
-      toast({ title: "Category deleted", description: `"${category.name}" has been removed.` });
+      toast({ title: "Категория удалена", description: `"${category.name}" удалена.` });
     } else {
-      toast({ title: "Error", description: "Failed to delete category.", variant: "destructive" });
+      toast({ title: "Ошибка", description: "Не удалось удалить категорию.", variant: "destructive" });
     }
     setDeletingId(null);
   };
@@ -70,7 +70,7 @@ export function CategoryManager({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Categories</CardTitle>
+          <CardTitle className="text-sm font-medium">Категории</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {[...Array(5)].map((_, i) => (
@@ -84,19 +84,19 @@ export function CategoryManager({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">Categories</CardTitle>
+        <CardTitle className="text-sm font-medium">Категории</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "income" | "expense")}>
           <TabsList className="mb-4">
-            <TabsTrigger value="income">Income</TabsTrigger>
-            <TabsTrigger value="expense">Expense</TabsTrigger>
+            <TabsTrigger value="income">Доход</TabsTrigger>
+            <TabsTrigger value="expense">Расход</TabsTrigger>
           </TabsList>
 
           <TabsContent value={activeTab} className="space-y-4">
             <div className="flex gap-2">
               <Input
-                placeholder={`New ${activeTab} category`}
+                placeholder={`Новая категория ${activeTab === "income" ? "дохода" : "расхода"}`}
                 value={newCategoryName}
                 onChange={(e) => setNewCategoryName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleCreate()}
@@ -116,7 +116,7 @@ export function CategoryManager({
 
             {systemCategories.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground">System Categories</p>
+                <p className="text-xs font-medium text-muted-foreground">Системные категории</p>
                 {systemCategories.map((category) => (
                   <div
                     key={category.id}
@@ -124,9 +124,9 @@ export function CategoryManager({
                   >
                     <div className="flex items-center gap-2">
                       <span className="text-sm">{category.name}</span>
-                      <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="text-xs">
                         <Lock className="mr-1 h-3 w-3" />
-                        System
+                        Системная
                       </Badge>
                     </div>
                   </div>
@@ -136,7 +136,7 @@ export function CategoryManager({
 
             {userCategories.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground">Your Categories</p>
+                <p className="text-xs font-medium text-muted-foreground">Ваши категории</p>
                 {userCategories.map((category) => (
                   <div
                     key={category.id}
@@ -163,7 +163,7 @@ export function CategoryManager({
 
             {filteredCategories.length === 0 && (
               <p className="text-sm text-muted-foreground text-center py-4">
-                No {activeTab} categories yet.
+                Категорий {activeTab === "income" ? "дохода" : "расхода"} пока нет.
               </p>
             )}
           </TabsContent>

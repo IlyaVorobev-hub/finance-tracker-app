@@ -1,8 +1,8 @@
-import uuid
 import datetime
+import uuid
 from decimal import Decimal
 
-from sqlalchemy import CheckConstraint, Enum, ForeignKey, Index, String, Text
+from sqlalchemy import CheckConstraint, Enum, ForeignKey, Index, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin

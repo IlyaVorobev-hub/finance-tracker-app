@@ -29,7 +29,7 @@ export function HomeworkList({ homework, className }: HomeworkListProps) {
   if (homework.length === 0) {
     return (
       <div className="py-12 text-center">
-        <p className="text-sm text-muted-foreground">No homework found.</p>
+        <p className="text-sm text-muted-foreground">Домашние задания не найдены.</p>
       </div>
     );
   }
@@ -39,11 +39,11 @@ export function HomeworkList({ homework, className }: HomeworkListProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Student</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead>Files</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>Заголовок</TableHead>
+            <TableHead>Ученик</TableHead>
+            <TableHead>Срок сдачи</TableHead>
+            <TableHead>Файлы</TableHead>
+            <TableHead>Статус</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

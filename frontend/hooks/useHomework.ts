@@ -91,14 +91,14 @@ export function useCreateHomework() {
       try {
         const res = await apiClient.post<Homework>("/homework", data);
         toast({
-          title: "Homework created",
-          description: `"${data.title}" has been created.`,
+          title: "Домашнее задание создано",
+          description: `"${data.title}" было создано.`,
         });
         return res.data;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return null;
       } finally {
         setIsSubmitting(false);
@@ -122,14 +122,14 @@ export function useUpdateHomework() {
       try {
         const res = await apiClient.put<Homework>(`/homework/${id}`, data);
         toast({
-          title: "Homework updated",
-          description: "Homework has been updated.",
+          title: "Домашнее задание обновлено",
+          description: "Домашнее задание было обновлено.",
         });
         return res.data;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return null;
       } finally {
         setIsSubmitting(false);
@@ -151,12 +151,12 @@ export function useDeleteHomework() {
     setError(null);
     try {
       await apiClient.delete(`/homework/${id}`);
-      toast({ title: "Homework deleted", description: "Homework has been removed." });
+      toast({ title: "Домашнее задание удалено", description: "Домашнее задание было удалено." });
       return true;
     } catch (err) {
       const msg = getApiErrorMessage(err);
       setError(msg);
-      toast({ title: "Error", description: msg, variant: "destructive" });
+      toast({ title: "Ошибка", description: msg, variant: "destructive" });
       return false;
     } finally {
       setIsSubmitting(false);
@@ -176,17 +176,19 @@ export function useArchiveHomework() {
     setError(null);
     try {
       await apiClient.patch(`/homework/${id}/archive`);
-      toast({ title: "Homework archived", description: "Homework has been archived." });
+      toast({ title: "Домашнее задание в архиве", description: "Домашнее задание было перемещено в архив." });
       return true;
     } catch (err) {
       const msg = getApiErrorMessage(err);
       setError(msg);
-      toast({ title: "Error", description: msg, variant: "destructive" });
-      return false;
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [toast]);
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
+        return false;
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [toast]
+  );
 
   return { archive, isSubmitting, error };
 }
@@ -206,12 +208,12 @@ export function useUploadFile() {
         await apiClient.post(`/homework/${homeworkId}/files`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        toast({ title: "File uploaded", description: `"${file.name}" has been uploaded.` });
+        toast({ title: "Файл загружен", description: `"${file.name}" был загружен.` });
         return true;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Upload failed", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка загрузки", description: msg, variant: "destructive" });
         return false;
       } finally {
         setIsUploading(false);
@@ -234,12 +236,12 @@ export function useRemoveFile() {
       setError(null);
       try {
         await apiClient.delete(`/homework/${homeworkId}/files/${fileId}`);
-        toast({ title: "File removed" });
+        toast({ title: "Файл удалён" });
         return true;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return false;
       } finally {
         setIsRemoving(false);

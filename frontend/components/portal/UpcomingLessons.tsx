@@ -25,7 +25,7 @@ export function UpcomingLessons() {
   if (error) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p>Failed to load upcoming lessons</p>
+        <p>Не удалось загрузить предстоящие уроки</p>
       </div>
     );
   }
@@ -33,7 +33,7 @@ export function UpcomingLessons() {
   if (upcomingLessons.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p>No upcoming lessons scheduled</p>
+        <p>Нет запланированных уроков</p>
       </div>
     );
   }
@@ -57,7 +57,7 @@ export function UpcomingLessons() {
       </div>
       <div className="flex justify-center">
         <Button asChild variant="ghost" size="sm">
-          <Link href="/portal/schedule">View All Lessons</Link>
+          <Link href="/portal/schedule">Все уроки</Link>
         </Button>
       </div>
     </div>

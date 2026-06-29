@@ -1,5 +1,5 @@
 import uuid
-from enum import Enum
+from enum import StrEnum
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -10,7 +10,7 @@ from app.api.deps import get_db_session
 from app.security.jwt import verify_token
 
 
-class Role(str, Enum):
+class Role(StrEnum):
     super_admin = "super_admin"
     admin = "admin"
     tutor = "tutor"

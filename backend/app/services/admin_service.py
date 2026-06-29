@@ -139,10 +139,50 @@ async def get_user_stats(db: AsyncSession, user_id: uuid.UUID) -> UserStats:
 
 
 async def get_all_users_stats(db: AsyncSession) -> list[UserStats]:
-    users_result = await db.execute(select(User.id))
-    user_ids = [row[0] for row in users_result.all()]
+    lessons_subq = (
+        select(
+            Lesson.tutor_id.label("user_id"),
+            func.count().label("lessons_count"),
+        )
+        .group_by(Lesson.tutor_id)
+        .subquery()
+    )
+    students_subq = (
+        select(
+            Student.tutor_id.label("user_id"),
+            func.count().label("students_count"),
+        )
+        .group_by(Student.tutor_id)
+        .subquery()
+    )
+    income_subq = (
+        select(
+            FinanceTransaction.user_id.label("user_id"),
+            func.coalesce(func.sum(FinanceTransaction.amount), 0).label("income"),
+        )
+        .where(FinanceTransaction.type == "income")
+        .group_by(FinanceTransaction.user_id)
+        .subquery()
+    )
 
-    stats = []
-    for uid in user_ids:
-        stats.append(await get_user_stats(db, uid))
-    return stats
+    result = await db.execute(
+        select(
+            User.id.label("user_id"),
+            func.coalesce(lessons_subq.c.lessons_count, 0).label("lessons_count"),
+            func.coalesce(students_subq.c.students_count, 0).label("students_count"),
+            func.coalesce(income_subq.c.income, 0).label("income"),
+        )
+        .outerjoin(lessons_subq, User.id == lessons_subq.c.user_id)
+        .outerjoin(students_subq, User.id == students_subq.c.user_id)
+        .outerjoin(income_subq, User.id == income_subq.c.user_id)
+    )
+
+    return [
+        UserStats(
+            user_id=row.user_id,
+            lessons_count=row.lessons_count,
+            students_count=row.students_count,
+            income=float(row.income),
+        )
+        for row in result.all()
+    ]

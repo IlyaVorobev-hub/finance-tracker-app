@@ -1,3 +1,4 @@
+import uuid
 from datetime import date
 
 import pytest
@@ -30,6 +31,29 @@ class TestFinanceAPI:
         assert "categories" in data
         assert data["total"] >= 1
 
+    async def test_update_category(self, client: AsyncClient, auth_headers):
+        create_response = await client.post(
+            "/api/v1/finance/categories",
+            json={"name": "Update Me", "type": "income"},
+            headers=auth_headers,
+        )
+        category_id = create_response.json()["id"]
+        response = await client.put(
+            f"/api/v1/finance/categories/{category_id}",
+            json={"name": "Updated Name"},
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
+        assert response.json()["name"] == "Updated Name"
+
+    async def test_update_category_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.put(
+            f"/api/v1/finance/categories/{uuid.uuid4()}",
+            json={"name": "Updated"},
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
+
     async def test_delete_custom_category(self, client: AsyncClient, auth_headers):
         create_response = await client.post(
             "/api/v1/finance/categories",
@@ -43,6 +67,13 @@ class TestFinanceAPI:
             headers=auth_headers,
         )
         assert response.status_code == 204
+
+    async def test_delete_category_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.delete(
+            f"/api/v1/finance/categories/{uuid.uuid4()}",
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
 
     async def test_create_income(self, client: AsyncClient, auth_headers):
         categories_response = await client.get("/api/v1/finance/categories", headers=auth_headers)
@@ -115,6 +146,38 @@ class TestFinanceAPI:
         data = response.json()
         assert all(t["type"] == "income" for t in data["transactions"])
 
+    async def test_get_transaction(self, client: AsyncClient, auth_headers):
+        categories_response = await client.get("/api/v1/finance/categories", headers=auth_headers)
+        income_cat = next(c for c in categories_response.json()["categories"] if c["type"] == "income" and c["is_system"])
+
+        create_response = await client.post(
+            "/api/v1/finance/transactions",
+            json={
+                "amount": 100.0,
+                "date": str(date.today()),
+                "category_id": income_cat["id"],
+                "type": "income",
+            },
+            headers=auth_headers,
+        )
+        transaction_id = create_response.json()["id"]
+
+        response = await client.get(f"/api/v1/finance/transactions/{transaction_id}", headers=auth_headers)
+        assert response.status_code == 200
+        assert response.json()["id"] == transaction_id
+
+    async def test_get_transaction_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.get(f"/api/v1/finance/transactions/{uuid.uuid4()}", headers=auth_headers)
+        assert response.status_code in [400, 404]
+
+    async def test_list_transactions_with_date_filter(self, client: AsyncClient, auth_headers):
+        response = await client.get(
+            "/api/v1/finance/transactions",
+            params={"start_date": str(date.today()), "end_date": str(date.today())},
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
+
     async def test_update_transaction(self, client: AsyncClient, auth_headers):
         categories_response = await client.get("/api/v1/finance/categories", headers=auth_headers)
         income_cat = next(c for c in categories_response.json()["categories"] if c["type"] == "income" and c["is_system"])
@@ -139,6 +202,14 @@ class TestFinanceAPI:
         assert response.status_code == 200
         assert response.json()["amount"] == 150.0
 
+    async def test_update_transaction_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.put(
+            f"/api/v1/finance/transactions/{uuid.uuid4()}",
+            json={"amount": 150.0},
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
+
     async def test_delete_transaction(self, client: AsyncClient, auth_headers):
         categories_response = await client.get("/api/v1/finance/categories", headers=auth_headers)
         income_cat = next(c for c in categories_response.json()["categories"] if c["type"] == "income" and c["is_system"])
@@ -160,6 +231,10 @@ class TestFinanceAPI:
             headers=auth_headers,
         )
         assert response.status_code == 204
+
+    async def test_delete_transaction_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.delete(f"/api/v1/finance/transactions/{uuid.uuid4()}", headers=auth_headers)
+        assert response.status_code == 404
 
     async def test_get_dashboard(self, client: AsyncClient, auth_headers):
         response = await client.get("/api/v1/finance/dashboard", headers=auth_headers)

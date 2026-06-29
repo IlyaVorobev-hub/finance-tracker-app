@@ -1,3 +1,5 @@
+import io
+import uuid
 from datetime import date, timedelta
 from unittest.mock import AsyncMock, patch
 
@@ -24,6 +26,18 @@ class TestHomeworkAPI:
         assert data["title"] == "Practice Problems"
         assert data["status"] == "pending"
 
+    async def test_create_homework_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.post(
+            "/api/v1/homework",
+            json={
+                "student_id": str(uuid.uuid4()),
+                "title": "Should Fail",
+                "due_date": str(date.today() + timedelta(days=7)),
+            },
+            headers=auth_headers,
+        )
+        assert response.status_code == 400
+
     async def test_list_homework(self, client: AsyncClient, auth_headers, test_homework):
         response = await client.get("/api/v1/homework", headers=auth_headers)
         assert response.status_code == 200
@@ -41,6 +55,14 @@ class TestHomeworkAPI:
         data = response.json()
         assert all(h["status"] == "pending" for h in data["homework"])
 
+    async def test_list_homework_with_student_filter(self, client: AsyncClient, auth_headers, test_homework, test_student):
+        response = await client.get(
+            "/api/v1/homework",
+            params={"student_id": str(test_student.id)},
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
+
     async def test_get_homework(self, client: AsyncClient, auth_headers, test_homework):
         response = await client.get(
             f"/api/v1/homework/{test_homework.id}",
@@ -49,6 +71,10 @@ class TestHomeworkAPI:
         assert response.status_code == 200
         data = response.json()
         assert data["title"] == "Test Homework"
+
+    async def test_get_homework_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.get(f"/api/v1/homework/{uuid.uuid4()}", headers=auth_headers)
+        assert response.status_code == 404
 
     async def test_update_homework(self, client: AsyncClient, auth_headers, test_homework):
         response = await client.put(
@@ -61,6 +87,14 @@ class TestHomeworkAPI:
         assert data["title"] == "Updated Title"
         assert data["status"] == "submitted"
 
+    async def test_update_homework_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.put(
+            f"/api/v1/homework/{uuid.uuid4()}",
+            json={"title": "Updated"},
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
+
     async def test_archive_homework(self, client: AsyncClient, auth_headers, test_homework):
         response = await client.patch(
             f"/api/v1/homework/{test_homework.id}/archive",
@@ -70,12 +104,20 @@ class TestHomeworkAPI:
         data = response.json()
         assert data["status"] == "archived"
 
+    async def test_archive_homework_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.patch(f"/api/v1/homework/{uuid.uuid4()}/archive", headers=auth_headers)
+        assert response.status_code == 404
+
     async def test_delete_homework(self, client: AsyncClient, auth_headers, test_homework):
         response = await client.delete(
             f"/api/v1/homework/{test_homework.id}",
             headers=auth_headers,
         )
         assert response.status_code == 204
+
+    async def test_delete_homework_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.delete(f"/api/v1/homework/{uuid.uuid4()}", headers=auth_headers)
+        assert response.status_code == 404
 
     @patch("app.api.v1.homework.storage_service.upload_file", new_callable=AsyncMock)
     async def test_upload_file(self, mock_upload, client: AsyncClient, auth_headers, test_homework):
@@ -85,8 +127,6 @@ class TestHomeworkAPI:
             "type": "text/plain",
             "size": 18,
         }
-        import io
-
         file_content = b"test file content"
         response = await client.post(
             f"/api/v1/homework/{test_homework.id}/files",
@@ -97,6 +137,14 @@ class TestHomeworkAPI:
         data = response.json()
         assert data["file_name"] == "test.txt"
 
+    async def test_upload_file_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.post(
+            f"/api/v1/homework/{uuid.uuid4()}/files",
+            files={"file": ("test.txt", io.BytesIO(b"content"), "text/plain")},
+            headers=auth_headers,
+        )
+        assert response.status_code in [400, 404]
+
     @patch("app.api.v1.homework.storage_service.upload_file", new_callable=AsyncMock)
     async def test_remove_file(self, mock_upload, client: AsyncClient, auth_headers, test_homework):
         mock_upload.return_value = {
@@ -105,8 +153,6 @@ class TestHomeworkAPI:
             "type": "text/plain",
             "size": 18,
         }
-        import io
-
         file_content = b"test file content"
         upload_response = await client.post(
             f"/api/v1/homework/{test_homework.id}/files",
@@ -120,6 +166,13 @@ class TestHomeworkAPI:
             headers=auth_headers,
         )
         assert response.status_code == 204
+
+    async def test_remove_file_not_found(self, client: AsyncClient, auth_headers, test_homework):
+        response = await client.delete(
+            f"/api/v1/homework/{test_homework.id}/files/{uuid.uuid4()}",
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
 
     async def test_student_portal_homework(self, client: AsyncClient, test_student_user, test_portal_student, test_user, db_session):
         from app.models.homework import Homework
@@ -148,6 +201,25 @@ class TestHomeworkAPI:
         assert response.status_code == 200
         data = response.json()
         assert len(data) >= 1
+
+    async def test_student_cannot_view_other_student_homework(self, client: AsyncClient, test_student_user, test_student, test_user, db_session):
+        from app.security.jwt import create_access_token
+
+        student_token = create_access_token({"sub": str(test_student_user.id)})
+        student_hdrs = {"Authorization": f"Bearer {student_token}"}
+
+        response = await client.get(
+            f"/api/v1/homework/student/{test_student.id}",
+            headers=student_hdrs,
+        )
+        assert response.status_code == 403
+
+    async def test_tutor_get_student_homework(self, client: AsyncClient, auth_headers, test_student, test_homework):
+        response = await client.get(
+            f"/api/v1/homework/student/{test_student.id}",
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
 
     async def test_student_cannot_create_homework(self, client: AsyncClient, student_headers, test_student):
         response = await client.post(

@@ -10,15 +10,15 @@ import { Loader2, Search } from "lucide-react";
 
 const statusConfig = {
   completed: {
-    label: "Completed",
+    label: "Завершено",
     className: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
   },
   pending: {
-    label: "Pending",
+    label: "Ожидает",
     className: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
   },
   failed: {
-    label: "Failed",
+    label: "Ошибка",
     className: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
   },
 };
@@ -51,9 +51,9 @@ export default function PaymentsPage() {
   if (error) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p>Failed to load payments</p>
+        <p>Не удалось загрузить платежи</p>
         <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>
-          Retry
+          Повторить
         </Button>
       </div>
     );
@@ -62,21 +62,21 @@ export default function PaymentsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Payments</h1>
-        <p className="text-muted-foreground">View your payment history.</p>
+        <h1 className="text-2xl font-bold">Платежи</h1>
+        <p className="text-muted-foreground">Просмотр истории платежей.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-lg border bg-card p-4">
-          <p className="text-sm text-muted-foreground">Total Paid</p>
+          <p className="text-sm text-muted-foreground">Всего оплачено</p>
           <p className="text-2xl font-bold">{formatCurrency(totalPaid)}</p>
         </div>
         <div className="rounded-lg border bg-card p-4">
-          <p className="text-sm text-muted-foreground">Total Transactions</p>
+          <p className="text-sm text-muted-foreground">Всего транзакций</p>
           <p className="text-2xl font-bold">{filteredPayments.length}</p>
         </div>
         <div className="rounded-lg border bg-card p-4">
-          <p className="text-sm text-muted-foreground">Completed</p>
+          <p className="text-sm text-muted-foreground">Завершено</p>
           <p className="text-2xl font-bold">
             {filteredPayments.filter((p) => p.status === "completed").length}
           </p>
@@ -87,14 +87,14 @@ export default function PaymentsPage() {
         <div className="flex gap-2">
           <Input
             type="date"
-            placeholder="Start date"
+            placeholder="Дата начала"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             className="w-40"
           />
           <Input
             type="date"
-            placeholder="End date"
+            placeholder="Дата окончания"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             className="w-40"
@@ -104,7 +104,7 @@ export default function PaymentsPage() {
 
       {filteredPayments.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <p>No payments found</p>
+          <p>Платежи не найдены</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -118,10 +118,10 @@ export default function PaymentsPage() {
                 <div className="space-y-1">
                   <p className="font-medium">{formatDate(payment.date)}</p>
                   <p className="text-sm text-muted-foreground">
-                    Lesson: {payment.lesson_date}
+                    Урок: {payment.lesson_date}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Method: {payment.method}
+                    Способ: {payment.method}
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-2">

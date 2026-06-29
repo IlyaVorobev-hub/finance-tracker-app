@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowRight, Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import type { Lesson } from "@/types/dashboard";
 
 interface UpcomingLessonsProps {
@@ -17,7 +18,7 @@ export function UpcomingLessons({ lessons = [], isLoading }: UpcomingLessonsProp
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Upcoming Lessons</CardTitle>
+          <CardTitle className="text-lg">Ближайшие уроки</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -31,10 +32,10 @@ export function UpcomingLessons({ lessons = [], isLoading }: UpcomingLessonsProp
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-lg">Upcoming Lessons</CardTitle>
+        <CardTitle className="text-lg">Ближайшие уроки</CardTitle>
         <Link href="/tutoring">
           <Button variant="ghost" size="sm">
-            View Calendar
+            Календарь
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
@@ -42,7 +43,7 @@ export function UpcomingLessons({ lessons = [], isLoading }: UpcomingLessonsProp
       <CardContent>
         {lessons.length === 0 ? (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            No upcoming lessons
+            Нет запланированных уроков
           </p>
         ) : (
           <div className="space-y-3">
@@ -62,7 +63,7 @@ export function UpcomingLessons({ lessons = [], isLoading }: UpcomingLessonsProp
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium">
-                    {format(new Date(lesson.date), "MMM d")}
+                    {format(new Date(lesson.date), "d MMM", { locale: ru })}
                   </p>
                   <p className="text-xs text-muted-foreground">{lesson.time}</p>
                 </div>

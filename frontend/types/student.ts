@@ -3,14 +3,14 @@ export interface Student {
   tutor_id: string;
   first_name: string;
   last_name: string;
-  email: string;
-  phone: string;
+  email?: string | null;
+  phone?: string | null;
   subject: string;
   lesson_price: number;
-  notes: string;
+  notes?: string | null;
   status: "active" | "paused" | "finished";
   created_at: string;
-  updated_at: string;
+  updated_at?: string | null;
 }
 
 export interface StudentFilter {
@@ -37,24 +37,23 @@ export interface StudentStats {
 export interface Lesson {
   id: string;
   student_id: string;
+  tutor_id?: string;
   date: string;
-  time: string;
-  duration: number;
-  subject: string;
-  notes: string;
+  start_time: string;
+  end_time: string;
+  price: number;
+  comment?: string | null;
   status: "scheduled" | "completed" | "cancelled";
   payment_status: "paid" | "unpaid";
+  student_name?: string;
   created_at: string;
 }
 
 export interface Payment {
-  id: string;
-  student_id: string;
-  amount: number;
+  lesson_id: string;
   date: string;
-  method: string;
-  notes: string;
-  created_at: string;
+  price: number;
+  payment_status: "paid" | "unpaid";
 }
 
 export interface CreateStudentData {
@@ -64,7 +63,7 @@ export interface CreateStudentData {
   phone: string;
   subject: string;
   lesson_price: number;
-  notes: string;
+  notes?: string;
 }
 
 export interface UpdateStudentData extends Partial<CreateStudentData> {

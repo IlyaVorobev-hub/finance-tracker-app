@@ -38,10 +38,10 @@ function getPasswordStrength(password: string): {
   if (/\d/.test(password)) score++;
   if (/[^a-zA-Z0-9]/.test(password)) score++;
 
-  if (score <= 1) return { score, label: "Weak", color: "bg-destructive" };
-  if (score <= 2) return { score, label: "Fair", color: "bg-orange-500" };
-  if (score <= 3) return { score, label: "Good", color: "bg-yellow-500" };
-  return { score, label: "Strong", color: "bg-green-500" };
+  if (score <= 1) return { score, label: "Слабый", color: "bg-destructive" };
+  if (score <= 2) return { score, label: "Нормальный", color: "bg-orange-500" };
+  if (score <= 3) return { score, label: "Хороший", color: "bg-yellow-500" };
+  return { score, label: "Надёжный", color: "bg-green-500" };
 }
 
 export default function RegisterPage() {
@@ -65,14 +65,14 @@ export default function RegisterPage() {
 
   const passwordChecks = useMemo(
     () => [
-      { label: "At least 8 characters", met: password.length >= 8 },
+      { label: "Минимум 8 символов", met: password.length >= 8 },
       {
-        label: "Contains uppercase & lowercase",
+        label: "Заглавные и строчные буквы",
         met: /[a-z]/.test(password) && /[A-Z]/.test(password),
       },
-      { label: "Contains a number", met: /\d/.test(password) },
+      { label: "Содержит цифру", met: /\d/.test(password) },
       {
-        label: "Contains a special character",
+        label: "Содержит спецсимвол",
         met: /[^a-zA-Z0-9]/.test(password),
       },
     ],
@@ -82,25 +82,25 @@ export default function RegisterPage() {
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!firstName.trim()) newErrors.firstName = "First name is required";
-    if (!lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!firstName.trim()) newErrors.firstName = "Введите имя";
+    if (!lastName.trim()) newErrors.lastName = "Введите фамилию";
 
     if (!email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Email обязателен";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = "Введите корректный email";
     }
 
     if (!password) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Пароль обязателен";
     } else if (password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+      newErrors.password = "Пароль должен быть не менее 8 символов";
     }
 
     if (!confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
+      newErrors.confirmPassword = "Подтвердите пароль";
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = "Пароли не совпадают";
     }
 
     setErrors(newErrors);
@@ -123,15 +123,15 @@ export default function RegisterPage() {
 
     if (result.success) {
       toast({
-        title: "Account created!",
-        description: "Welcome to Finance Tutor. Let's get started.",
+        title: "Аккаунт создан!",
+        description: "Добро пожаловать в Finance Tutor!",
       });
       router.push("/dashboard");
     } else {
       toast({
-        title: "Registration failed",
+        title: "Ошибка регистрации",
         description:
-          result.error || "Could not create your account. Please try again.",
+          result.error || "Не удалось создать аккаунт. Попробуйте снова.",
         variant: "destructive",
       });
     }
@@ -143,10 +143,10 @@ export default function RegisterPage() {
     <Card className="border-border/50 shadow-lg">
       <CardHeader className="space-y-1 pb-4">
         <CardTitle className="text-xl font-semibold tracking-tight">
-          Create your account
+          Создание аккаунта
         </CardTitle>
         <CardDescription className="text-muted-foreground">
-          Enter your information below to get started
+          Заполните информацию для регистрации
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
@@ -154,12 +154,12 @@ export default function RegisterPage() {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label htmlFor="firstName" className="text-sm font-medium">
-                First name
+                Имя
               </Label>
               <Input
                 id="firstName"
                 type="text"
-                placeholder="John"
+                placeholder="Иван"
                 value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value);
@@ -177,12 +177,12 @@ export default function RegisterPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName" className="text-sm font-medium">
-                Last name
+                Фамилия
               </Label>
               <Input
                 id="lastName"
                 type="text"
-                placeholder="Doe"
+                placeholder="Иванов"
                 value={lastName}
                 onChange={(e) => {
                   setLastName(e.target.value);
@@ -222,13 +222,13 @@ export default function RegisterPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password" className="text-sm font-medium">
-              Password
+              Пароль
             </Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Create a password"
+                placeholder="Придумайте пароль"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -268,7 +268,7 @@ export default function RegisterPage() {
                       }}
                     />
                   </div>
-                  <span className="text-xs text-muted-foreground w-12">
+                  <span className="text-xs text-muted-foreground w-16">
                     {passwordStrength.label}
                   </span>
                 </div>
@@ -300,13 +300,13 @@ export default function RegisterPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword" className="text-sm font-medium">
-              Confirm password
+              Подтвердите пароль
             </Label>
             <div className="relative">
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm your password"
+                placeholder="Повторите пароль"
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
@@ -347,19 +347,19 @@ export default function RegisterPage() {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating account...
+                Регистрация...
               </>
             ) : (
-              "Create account"
+              "Зарегистрироваться"
             )}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
+            Уже есть аккаунт?{" "}
             <Link
               href="/login"
               className="font-medium text-primary hover:underline"
             >
-              Sign in
+              Войти
             </Link>
           </p>
         </CardFooter>

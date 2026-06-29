@@ -76,8 +76,9 @@ export function useUsersList(filters: UserFilters = {}) {
 
   const fetcher = useCallback(async () => {
     const params = new URLSearchParams();
-    params.append("page", page.toString());
-    params.append("per_page", per_page.toString());
+    const skip = (page - 1) * per_page;
+    params.append("skip", skip.toString());
+    params.append("limit", per_page.toString());
     if (search) params.append("search", search);
     if (role) params.append("role", role);
     if (is_active !== undefined) params.append("is_active", is_active.toString());

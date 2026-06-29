@@ -79,10 +79,10 @@ export default function StudentDetailPage() {
 
   if (error || !student) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-destructive">{error || "Student not found"}</p>
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+        <p className="text-destructive">{error || "Ученик не найден"}</p>
         <Button variant="outline" className="mt-4" onClick={() => router.back()}>
-          Go Back
+          Назад
         </Button>
       </div>
     );
@@ -108,11 +108,11 @@ export default function StudentDetailPage() {
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
             <Pencil className="mr-2 h-4 w-4" />
-            Edit
+            Редактировать
           </Button>
           <Button variant="outline" size="sm" onClick={() => setDeleteDialogOpen(true)}>
             <Trash2 className="mr-2 h-4 w-4 text-destructive" />
-            Delete
+            Удалить
           </Button>
         </div>
       </div>
@@ -159,20 +159,20 @@ export default function StudentDetailPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Quick Info
+              Краткая информация
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <p className="text-xs text-muted-foreground">Subject</p>
+              <p className="text-xs text-muted-foreground">Предмет</p>
               <p className="text-sm font-medium">{student.subject}</p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">Lesson Rate</p>
+              <p className="text-xs text-muted-foreground">Стоимость урока</p>
               <p className="text-sm font-medium">{formatCurrency(student.lesson_price)}/hr</p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">Status</p>
+              <p className="text-xs text-muted-foreground">Статус</p>
               <Badge className={statusColor[student.status]}>{student.status}</Badge>
             </div>
           </CardContent>
@@ -183,15 +183,15 @@ export default function StudentDetailPage() {
         <TabsList>
           <TabsTrigger value="lessons" className="gap-2">
             <Calendar className="h-4 w-4" />
-            Lessons
+            Уроки
           </TabsTrigger>
           <TabsTrigger value="payments" className="gap-2">
             <DollarSign className="h-4 w-4" />
-            Payments
+            Платежи
           </TabsTrigger>
           <TabsTrigger value="notes" className="gap-2">
             <FileText className="h-4 w-4" />
-            Notes
+            Заметки
           </TabsTrigger>
         </TabsList>
 
@@ -203,14 +203,14 @@ export default function StudentDetailPage() {
           ) : lessons.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-center text-muted-foreground">
-                No lessons recorded yet.
+                Пока нет записей об уроках.
               </CardContent>
             </Card>
           ) : (
             <>
               {upcomingLessons.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium mb-3">Upcoming</h4>
+                  <h4 className="text-sm font-medium mb-3">Ближайшие</h4>
                   <div className="space-y-2">
                     {upcomingLessons.map((lesson) => (
                       <Card key={lesson.id}>
@@ -232,7 +232,7 @@ export default function StudentDetailPage() {
               )}
               {pastLessons.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium mb-3">Past</h4>
+                  <h4 className="text-sm font-medium mb-3">Прошедшие</h4>
                   <div className="space-y-2">
                     {pastLessons.map((lesson) => (
                       <Card key={lesson.id}>
@@ -266,7 +266,7 @@ export default function StudentDetailPage() {
           ) : payments.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-center text-muted-foreground">
-                No payment history yet.
+                Пока нет истории платежей.
               </CardContent>
             </Card>
           ) : (
@@ -301,7 +301,7 @@ export default function StudentDetailPage() {
                 <p className="text-sm whitespace-pre-wrap">{student.notes}</p>
               ) : (
                 <p className="text-sm text-muted-foreground text-center">
-                  No notes for this student.
+                  Нет заметок для этого ученика.
                 </p>
               )}
             </CardContent>
@@ -320,18 +320,18 @@ export default function StudentDetailPage() {
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Student</DialogTitle>
+            <DialogTitle>Удалить ученика</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete {student.first_name} {student.last_name}? This action cannot be undone.
+              Вы уверены, что хотите удалить {student.first_name} {student.last_name}? Это действие нельзя отменить.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteDialogOpen(false)} disabled={isDeleting}>
-              Cancel
+              Отмена
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
               {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Delete
+              Удалить
             </Button>
           </DialogFooter>
         </DialogContent>

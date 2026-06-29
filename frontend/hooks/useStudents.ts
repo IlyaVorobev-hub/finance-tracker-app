@@ -95,12 +95,12 @@ export function useCreateStudent() {
       setError(null);
       try {
         const res = await apiClient.post<Student>("/students", data);
-        toast({ title: "Student created", description: `${data.first_name} ${data.last_name} has been added.` });
+        toast({ title: "Ученик создан", description: `${data.first_name} ${data.last_name} был добавлен.` });
         return res.data;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return null;
       } finally {
         setIsLoading(false);
@@ -123,12 +123,12 @@ export function useUpdateStudent() {
       setError(null);
       try {
         const res = await apiClient.put<Student>(`/students/${id}`, data);
-        toast({ title: "Student updated", description: "Student information has been updated." });
+        toast({ title: "Ученик обновлён", description: "Информация об ученике была обновлена." });
         return res.data;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return null;
       } finally {
         setIsLoading(false);
@@ -151,12 +151,12 @@ export function useDeleteStudent() {
       setError(null);
       try {
         await apiClient.delete(`/students/${id}`);
-        toast({ title: "Student deleted", description: "Student has been removed." });
+        toast({ title: "Ученик удалён", description: "Ученик был удалён." });
         return true;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return false;
       } finally {
         setIsLoading(false);
@@ -179,12 +179,12 @@ export function useUpdateStudentStatus() {
       setError(null);
       try {
         const res = await apiClient.patch<Student>(`/students/${id}/status`, { status });
-        toast({ title: "Status updated", description: `Student status changed to ${status}.` });
+        toast({ title: "Статус обновлён", description: `Статус ученика изменён на ${status}.` });
         return res.data;
       } catch (err) {
         const msg = getApiErrorMessage(err);
         setError(msg);
-        toast({ title: "Error", description: msg, variant: "destructive" });
+        toast({ title: "Ошибка", description: msg, variant: "destructive" });
         return null;
       } finally {
         setIsLoading(false);
@@ -206,8 +206,8 @@ export function useStudentLessons(studentId: string | null) {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await apiClient.get<import("@/types/student").Lesson[]>(`/students/${studentId}/lessons`);
-      setLessons(res.data);
+      const res = await apiClient.get<{ lessons: import("@/types/student").Lesson[] }>(`/students/${studentId}/lessons`);
+      setLessons(res.data.lessons ?? []);
     } catch (err) {
       setError(getApiErrorMessage(err));
     } finally {
@@ -232,8 +232,8 @@ export function useStudentPayments(studentId: string | null) {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await apiClient.get<import("@/types/student").Payment[]>(`/students/${studentId}/payments`);
-      setPayments(res.data);
+      const res = await apiClient.get<{ payments: import("@/types/student").Payment[] }>(`/students/${studentId}/payments`);
+      setPayments(res.data.payments ?? []);
     } catch (err) {
       setError(getApiErrorMessage(err));
     } finally {

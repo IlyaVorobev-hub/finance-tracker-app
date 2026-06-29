@@ -1,17 +1,24 @@
-from datetime import date, datetime
+from datetime import date, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import and_, func, or_, select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.api.deps import get_db_session
-from app.models.homework import Homework, HomeworkFile
+from app.models.homework import Homework
 from app.models.lesson import Lesson
 from app.models.student import Student
 from app.models.user import User
-from app.security.permissions import require_role
 from app.schemas.homework import HomeworkFileResponse, HomeworkResponse
+from app.schemas.portal import (
+    PortalHistoryResponse,
+    PortalLessonResponse,
+    PortalPaymentItem,
+    PortalPaymentsResponse,
+    PortalScheduleResponse,
+)
+from app.security.permissions import require_role
 
 router = APIRouter(tags=["Student Portal"])
 
@@ -52,23 +59,7 @@ def _homework_to_response(hw) -> HomeworkResponse:
     )
 
 
-def _lesson_to_dict(lesson) -> dict:
-    return {
-        "id": str(lesson.id),
-        "student_id": str(lesson.student_id),
-        "tutor_id": str(lesson.tutor_id),
-        "date": str(lesson.date),
-        "start_time": str(lesson.start_time),
-        "end_time": str(lesson.end_time),
-        "price": float(lesson.price),
-        "comment": lesson.comment,
-        "status": lesson.status,
-        "payment_status": lesson.payment_status,
-        "created_at": lesson.created_at.isoformat(),
-    }
-
-
-@router.get("/schedule")
+@router.get("/schedule", response_model=PortalScheduleResponse)
 async def get_schedule(
     days: int = Query(30, ge=1, le=90),
     db: AsyncSession = Depends(get_db_session),
@@ -77,8 +68,6 @@ async def get_schedule(
     student = await _get_student_from_user(db, current_user)
 
     today = date.today()
-    from datetime import timedelta
-
     end_date = today + timedelta(days=days)
 
     result = await db.execute(
@@ -93,7 +82,9 @@ async def get_schedule(
     )
     lessons = list(result.scalars().all())
 
-    return {"lessons": [_lesson_to_dict(l) for l in lessons]}
+    return PortalScheduleResponse(
+        lessons=[PortalLessonResponse.model_validate(l) for l in lessons]
+    )
 
 
 @router.get("/homework", response_model=list[HomeworkResponse])
@@ -114,7 +105,7 @@ async def get_homework(
     return [_homework_to_response(h) for h in homeworks]
 
 
-@router.get("/history")
+@router.get("/history", response_model=PortalHistoryResponse)
 async def get_history(
     page: int = Query(1, ge=1),
     per_page: int = Query(20, ge=1, le=100),
@@ -141,15 +132,15 @@ async def get_history(
     result = await db.execute(query)
     lessons = list(result.scalars().all())
 
-    return {
-        "lessons": [_lesson_to_dict(l) for l in lessons],
-        "total": total,
-        "page": page,
-        "per_page": per_page,
-    }
+    return PortalHistoryResponse(
+        lessons=[PortalLessonResponse.model_validate(l) for l in lessons],
+        total=total,
+        page=page,
+        per_page=per_page,
+    )
 
 
-@router.get("/payments")
+@router.get("/payments", response_model=PortalPaymentsResponse)
 async def get_payments(
     db: AsyncSession = Depends(get_db_session),
     current_user: User = Depends(require_role("student")),
@@ -166,13 +157,14 @@ async def get_payments(
     )
     lessons = list(result.scalars().all())
 
-    payments = []
-    for lesson in lessons:
-        payments.append({
-            "lesson_id": str(lesson.id),
-            "date": str(lesson.date),
-            "price": float(lesson.price),
-            "payment_status": lesson.payment_status,
-        })
+    payments = [
+        PortalPaymentItem(
+            lesson_id=lesson.id,
+            date=lesson.date,
+            price=float(lesson.price),
+            payment_status=lesson.payment_status,
+        )
+        for lesson in lessons
+    ]
 
-    return {"payments": payments}
+    return PortalPaymentsResponse(payments=payments)

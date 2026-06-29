@@ -7,9 +7,9 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">System Settings</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Настройки системы</h1>
         <p className="text-muted-foreground">
-          Configure system-wide settings
+          Настройка параметров системы
         </p>
       </div>
 
@@ -17,19 +17,19 @@ export default function AdminSettingsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Settings className="h-5 w-5" />
-            General Settings
+            Общие настройки
           </CardTitle>
           <CardDescription>
-            Manage system categories, default rates, and other configuration options.
+            Управление системными категориями, стандартными ставками и другими параметрами.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border border-dashed p-8 text-center">
             <p className="text-muted-foreground">
-              System settings will be available here soon.
+              Настройки системы скоро будут доступны здесь.
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Coming soon: Category management, default rates, system preferences
+              Скоро: Управление категориями, стандартные ставки, системные предпочтения
             </p>
           </div>
         </CardContent>

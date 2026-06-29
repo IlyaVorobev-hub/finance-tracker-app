@@ -1,30 +1,39 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const AUTH_TOKEN_KEY = "ft_access_token";
-const AUTH_ROUTES = ["/login", "/register"];
-const PROTECTED_PREFIXES = ["/dashboard", "/finance", "/tutoring", "/homework", "/admin", "/settings", "/profile"];
+const PROTECTED_ROUTES = ["/dashboard", "/finance", "/tutoring", "/homework", "/admin"];
+const ADMIN_ROUTES = ["/admin"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get(AUTH_TOKEN_KEY)?.value;
+  const token = request.cookies.get("ft_token")?.value;
 
-  const isAuthRoute = AUTH_ROUTES.some(
+  const isProtected = PROTECTED_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
-  const isProtectedRoute = PROTECTED_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(prefix + "/")
-  );
-
-  if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (isProtected && !token) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
-  if (isProtectedRoute && !token) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+  const isAdminRoute = ADMIN_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(route + "/")
+  );
+
+  if (isAdminRoute && token) {
+    try {
+      const payload = JSON.parse(
+        atob(token.split(".")[1])
+      );
+      const role = payload.role;
+      if (role !== "super_admin" && role !== "admin") {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
+    } catch {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   return NextResponse.next();

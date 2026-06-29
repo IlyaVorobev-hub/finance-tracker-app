@@ -6,11 +6,11 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LayoutDashboard, ArrowDownCircle, ArrowUpCircle, FolderOpen, BarChart3 } from "lucide-react";
 
 const financeTabs = [
-  { value: "dashboard", label: "Dashboard", href: "/finance", icon: LayoutDashboard },
-  { value: "income", label: "Income", href: "/finance/income", icon: ArrowDownCircle },
-  { value: "expenses", label: "Expenses", href: "/finance/expenses", icon: ArrowUpCircle },
-  { value: "categories", label: "Categories", href: "/finance/categories", icon: FolderOpen },
-  { value: "analytics", label: "Analytics", href: "/finance/analytics", icon: BarChart3 },
+  { value: "dashboard", label: "Обзор", href: "/finance", icon: LayoutDashboard },
+  { value: "income", label: "Доход", href: "/finance/income", icon: ArrowDownCircle },
+  { value: "expenses", label: "Расходы", href: "/finance/expenses", icon: ArrowUpCircle },
+  { value: "categories", label: "Категории", href: "/finance/categories", icon: FolderOpen },
+  { value: "analytics", label: "Аналитика", href: "/finance/analytics", icon: BarChart3 },
 ];
 
 export default function FinanceLayout({
@@ -28,9 +28,9 @@ export default function FinanceLayout({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Finance</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Финансы</h1>
         <p className="text-muted-foreground">
-          Manage your income, expenses, and financial overview.
+          Управляйте доходами, расходами и финансовым обзором.
         </p>
       </div>
       <Tabs value={currentValue}>

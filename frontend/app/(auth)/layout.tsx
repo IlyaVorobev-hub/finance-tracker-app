@@ -17,7 +17,7 @@ export default function AuthLayout({
             <span className="text-xl font-bold">{APP_NAME}</span>
           </Link>
           <p className="text-sm text-muted-foreground">
-            Personal finance education platform
+            Платформа управления финансами и репетиторством
           </p>
         </div>
         {children}

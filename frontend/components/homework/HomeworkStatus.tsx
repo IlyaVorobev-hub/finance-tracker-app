@@ -15,19 +15,19 @@ function isOverdue(dueDate: string, status: Status): boolean {
 
 const statusConfig: Record<Status, { label: string; className: string }> = {
   pending: {
-    label: "Pending",
+    label: "Ожидает",
     className: "border-yellow-500/20 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400",
   },
   submitted: {
-    label: "Submitted",
+    label: "Отправлено",
     className: "border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400",
   },
   graded: {
-    label: "Graded",
+    label: "Оценено",
     className: "border-green-500/20 bg-green-500/10 text-green-600 dark:text-green-400",
   },
   archived: {
-    label: "Archived",
+    label: "В архиве",
     className: "border-muted bg-muted text-muted-foreground",
   },
 };
@@ -46,7 +46,7 @@ export function HomeworkStatus({ status, dueDate, className }: HomeworkStatusPro
         className
       )}
     >
-      {overdue ? "Overdue" : config.label}
+      {overdue ? "Просрочено" : config.label}
     </Badge>
   );
 }

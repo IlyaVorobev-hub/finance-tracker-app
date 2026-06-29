@@ -17,15 +17,15 @@ interface LessonCardProps {
 
 const statusConfig = {
   scheduled: {
-    label: "Scheduled",
+    label: "Запланировано",
     className: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
   },
   completed: {
-    label: "Completed",
+    label: "Завершено",
     className: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
   },
   cancelled: {
-    label: "Cancelled",
+    label: "Отменено",
     className: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
   },
 };
@@ -73,7 +73,7 @@ export function LessonCard({
           variant={paymentStatus === "paid" ? "default" : "destructive"}
           className="text-xs"
         >
-          {paymentStatus === "paid" ? "Paid" : "Unpaid"}
+          {paymentStatus === "paid" ? "Оплачено" : "Не оплачено"}
         </Badge>
       </div>
     </div>

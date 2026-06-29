@@ -29,9 +29,9 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Панель администратора</h1>
         <p className="text-muted-foreground">
-          System overview and management
+          Обзор и управление системой
         </p>
       </div>
 
@@ -39,7 +39,7 @@ export default function AdminDashboardPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
+          <CardTitle>Последняя активность</CardTitle>
         </CardHeader>
         <CardContent>
           <AuditLogTable

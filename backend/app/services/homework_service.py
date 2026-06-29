@@ -117,9 +117,9 @@ async def archive_homework(
     return hw
 
 
-async def add_file(db: AsyncSession, homework_id: uuid.UUID, file_data: dict) -> HomeworkFile:
+async def add_file(db: AsyncSession, homework_id: uuid.UUID, tutor_id: uuid.UUID, file_data: dict) -> HomeworkFile:
     result = await db.execute(
-        select(Homework).where(Homework.id == homework_id)
+        select(Homework).where(Homework.id == homework_id, Homework.tutor_id == tutor_id)
     )
     hw = result.scalar_one_or_none()
     if not hw:

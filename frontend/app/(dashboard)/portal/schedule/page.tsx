@@ -32,9 +32,9 @@ export default function SchedulePage() {
   if (error) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p>Failed to load schedule</p>
+        <p>Не удалось загрузить расписание</p>
         <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>
-          Retry
+          Повторить
         </Button>
       </div>
     );
@@ -43,15 +43,15 @@ export default function SchedulePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Schedule</h1>
-        <p className="text-muted-foreground">View all your upcoming and past lessons.</p>
+        <h1 className="text-2xl font-bold">Расписание</h1>
+        <p className="text-muted-foreground">Просмотр всех ваших предстоящих и прошедших уроков.</p>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by subject or tutor..."
+            placeholder="Поиск по предмету или преподавателю..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -61,7 +61,7 @@ export default function SchedulePage() {
 
       {filteredLessons.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <p>No lessons found</p>
+          <p>Уроки не найдены</p>
         </div>
       ) : (
         <div className="space-y-3">

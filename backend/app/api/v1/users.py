@@ -6,9 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_db_session
 from app.schemas.user import (
     UserCreate,
-    UserRoleUpdate,
     UserListResponse,
     UserResponse,
+    UserRoleUpdate,
     UserStatusUpdate,
     UserUpdate,
 )

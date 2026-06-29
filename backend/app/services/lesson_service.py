@@ -54,7 +54,7 @@ async def create_lesson(
     if conflict:
         raise ValueError("Time conflict with existing lesson")
 
-    price = data.price if data.price is not None else float(student_obj.lesson_price)
+    price = data.price if data.price is not None else student_obj.lesson_price
 
     lesson = Lesson(
         student_id=data.student_id,
@@ -191,6 +191,8 @@ async def update_payment_status(
     tutor_id: uuid.UUID,
     payment_status: str,
 ) -> Lesson:
+    if payment_status not in ("paid", "unpaid"):
+        raise ValueError("payment_status must be 'paid' or 'unpaid'")
     lesson = await get_lesson(db, lesson_id, tutor_id)
     lesson.payment_status = payment_status
     await db.flush()
@@ -252,6 +254,13 @@ async def create_recurring(
             price=lesson.price,
             comment=lesson.comment,
         )
+
+        conflict = await _check_time_conflict(
+            db, tutor_id, lesson.student_id, current_date, lesson.start_time, lesson.end_time
+        )
+        if conflict:
+            continue
+
         db.add(new_lesson)
         created_lessons.append(new_lesson)
 

@@ -40,6 +40,16 @@ function useFetch<T>(fetcher: () => Promise<T>, deps: unknown[] = []): UseDashbo
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    const handleFocus = () => fetchData();
+    document.addEventListener("visibilitychange", handleFocus);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      document.removeEventListener("visibilitychange", handleFocus);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [fetchData]);
+
   return { data, isLoading, error, refetch: fetchData };
 }
 
@@ -69,17 +79,17 @@ export function useMonthlyAnalytics(months: number = 6) {
     startDate.setMonth(startDate.getMonth() - months);
     const start = startDate.toISOString().split("T")[0];
 
-    const res = await apiClient.get<{ data: MonthlyData[] }>(
-      `/finance/analytics/monthly?start_date=${start}&end_date=${endDate}`
+    const res = await apiClient.get<{ data?: MonthlyData[]; total_income?: number }>(
+      `/finance/analytics/summary?start_date=${start}&end_date=${endDate}`
     );
-    return res.data.data ?? res.data;
+    return res.data.data ?? [];
   }, [months]);
 }
 
 export function useUpcomingLessons() {
   return useFetch<Lesson[]>(() =>
-    apiClient.get<{ data: Lesson[] }>("/lessons").then((res) => {
-      const lessons = res.data.data ?? res.data;
+    apiClient.get<{ lessons: Lesson[] }>("/lessons").then((res) => {
+      const lessons = res.data.lessons ?? [];
       if (Array.isArray(lessons)) {
         return lessons
           .filter((l) => new Date(l.date) >= new Date())
@@ -93,8 +103,8 @@ export function useUpcomingLessons() {
 
 export function useStudentStats() {
   return useFetch<Student[]>(() =>
-    apiClient.get<{ data: Student[] }>("/students").then((res) => {
-      return res.data.data ?? res.data;
+    apiClient.get<{ students: Student[]; data?: Student[] }>("/students").then((res) => {
+      return res.data.students ?? res.data.data ?? (Array.isArray(res.data) ? res.data : []);
     })
   );
 }

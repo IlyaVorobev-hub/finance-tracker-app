@@ -73,7 +73,7 @@ export function AnalyticsChart({
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Income by Category</CardTitle>
+            <CardTitle className="text-sm font-medium">Доход по категориям</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[250px] animate-pulse rounded bg-muted" />
@@ -81,7 +81,7 @@ export function AnalyticsChart({
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Expenses by Category</CardTitle>
+            <CardTitle className="text-sm font-medium">Расход по категориям</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[250px] animate-pulse rounded bg-muted" />
@@ -96,7 +96,7 @@ export function AnalyticsChart({
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Income by Category</CardTitle>
+            <CardTitle className="text-sm font-medium">Доход по категориям</CardTitle>
           </CardHeader>
           <CardContent>
             {incomeByCategory.length > 0 ? (
@@ -123,14 +123,14 @@ export function AnalyticsChart({
               </div>
             ) : (
               <div className="flex h-[250px] items-center justify-center text-muted-foreground">
-                No income data
+                Нет данных о доходах
               </div>
             )}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Expenses by Category</CardTitle>
+            <CardTitle className="text-sm font-medium">Расход по категориям</CardTitle>
           </CardHeader>
           <CardContent>
             {expensesByCategory.length > 0 ? (
@@ -157,7 +157,7 @@ export function AnalyticsChart({
               </div>
             ) : (
               <div className="flex h-[250px] items-center justify-center text-muted-foreground">
-                No expense data
+                Нет данных о расходах
               </div>
             )}
           </CardContent>
@@ -166,7 +166,7 @@ export function AnalyticsChart({
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Monthly Comparison</CardTitle>
+          <CardTitle className="text-sm font-medium">Сравнение по месяцам</CardTitle>
         </CardHeader>
         <CardContent>
           {monthlyTrend.length > 0 ? (
@@ -178,14 +178,14 @@ export function AnalyticsChart({
                   <YAxis className="text-xs" tick={{ fill: "hsl(var(--muted-foreground))" }} />
                   <Tooltip content={<BarTooltip />} />
                   <Legend />
-                  <Bar dataKey="income" name="Income" fill="hsl(142, 76%, 36%)" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="expenses" name="Expenses" fill="hsl(0, 84%, 60%)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="income" name="Доход" fill="hsl(142, 76%, 36%)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="expenses" name="Расходы" fill="hsl(0, 84%, 60%)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           ) : (
             <div className="flex h-[300px] items-center justify-center text-muted-foreground">
-              No trend data
+              Нет данных о тренде
             </div>
           )}
         </CardContent>

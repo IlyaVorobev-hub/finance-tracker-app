@@ -1,8 +1,7 @@
-import os
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -63,7 +62,7 @@ async def delete_file(
     if not hf:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
 
-    rel_path = hf.file_url.lstrip("/uploads/")
+    rel_path = hf.file_url.removeprefix("/uploads/")
     await storage_service.delete_file(path=rel_path)
     await db.delete(hf)
     await db.flush()
@@ -80,7 +79,7 @@ async def download_file(
     if not hf:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
 
-    rel_path = hf.file_url.lstrip("/uploads/")
+    rel_path = hf.file_url.removeprefix("/uploads/")
     full_path = storage_service.UPLOAD_DIR / rel_path
     if not full_path.exists():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found on disk")

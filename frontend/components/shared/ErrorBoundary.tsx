@@ -28,15 +28,15 @@ export class ErrorBoundary extends React.Component<
       return (
         <div className="flex flex-col items-center justify-center gap-4 p-8">
           <AlertCircle className="h-12 w-12 text-destructive" />
-          <h2 className="text-lg font-semibold">Something went wrong</h2>
+          <h2 className="text-lg font-semibold">Что-то пошло не так</h2>
           <p className="text-sm text-muted-foreground">
-            {this.state.error?.message || "An unexpected error occurred"}
+            {this.state.error?.message || "Произошла непредвиденная ошибка"}
           </p>
           <Button
             variant="outline"
             onClick={() => this.setState({ hasError: false, error: null })}
           >
-            Try again
+            Попробовать снова
           </Button>
         </div>
       );

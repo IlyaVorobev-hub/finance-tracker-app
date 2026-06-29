@@ -129,6 +129,8 @@ async def create_transaction(db: AsyncSession, user_id: UUID, data: TransactionC
         pass
     else:
         raise ValueError("Category not accessible")
+    if data.type != category.type:
+        raise ValueError(f"Category type '{category.type}' does not match transaction type '{data.type}'")
 
     transaction = FinanceTransaction(
         user_id=user_id,
@@ -184,8 +186,12 @@ async def list_transactions(
 async def get_transaction(
     db: AsyncSession, transaction_id: UUID, user_id: UUID
 ) -> FinanceTransaction:
+    from sqlalchemy.orm import selectinload
+
     result = await db.execute(
-        select(FinanceTransaction).where(
+        select(FinanceTransaction)
+        .options(selectinload(FinanceTransaction.category))
+        .where(
             FinanceTransaction.id == transaction_id,
             FinanceTransaction.user_id == user_id,
         )
@@ -205,6 +211,17 @@ async def update_transaction(
     if data.date is not None:
         transaction.date = data.date
     if data.category_id is not None:
+        cat_result = await db.execute(
+            select(FinanceCategory).where(
+                FinanceCategory.id == data.category_id,
+                FinanceCategory.is_active == True,  # noqa: E712
+            )
+        )
+        new_category = cat_result.scalar_one_or_none()
+        if new_category is None:
+            raise ValueError("Category not found")
+        if not new_category.is_system and new_category.user_id != user_id:
+            raise ValueError("Category not accessible")
         transaction.category_id = data.category_id
     if data.description is not None:
         transaction.description = data.description
@@ -299,6 +316,7 @@ async def get_dashboard(db: AsyncSession, user_id: UUID) -> DashboardResponse:
 
     recent_result = await db.execute(
         select(FinanceTransaction)
+        .options(selectinload(FinanceTransaction.category))
         .where(FinanceTransaction.user_id == user_id)
         .order_by(FinanceTransaction.date.desc(), FinanceTransaction.created_at.desc())
         .limit(10)

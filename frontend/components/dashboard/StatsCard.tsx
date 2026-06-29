@@ -11,8 +11,24 @@ interface StatsCardProps {
   className?: string;
 }
 
+const iconBg: Record<string, string> = {
+  DollarSign: "bg-emerald-500/10",
+  TrendingUp: "bg-blue-500/10",
+  TrendingDown: "bg-rose-500/10",
+  Users: "bg-violet-500/10",
+};
+
+const iconColor: Record<string, string> = {
+  DollarSign: "text-emerald-600",
+  TrendingUp: "text-blue-600",
+  TrendingDown: "text-rose-600",
+  Users: "text-violet-600",
+};
+
 export function StatsCard({ data, className }: StatsCardProps) {
   const { label, value, trend, icon: Icon, format = "number" } = data;
+
+  const iconName = Icon.displayName || Icon.name || "";
 
   const formattedValue =
     format === "currency"
@@ -48,12 +64,12 @@ export function StatsCard({ data, className }: StatsCardProps) {
                 >
                   {Math.abs(trend.value)}%
                 </span>
-                <span className="text-xs text-muted-foreground">vs last month</span>
+                <span className="text-xs text-muted-foreground">к прошлому месяцу</span>
               </div>
             )}
           </div>
-          <div className="rounded-lg bg-primary/10 p-2.5">
-            <Icon className="h-5 w-5 text-primary" />
+          <div className={cn("rounded-lg p-2.5", iconBg[iconName] || "bg-primary/10")}>
+            <Icon className={cn("h-5 w-5", iconColor[iconName] || "text-primary")} />
           </div>
         </div>
       </CardContent>

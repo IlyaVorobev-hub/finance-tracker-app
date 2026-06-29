@@ -56,13 +56,13 @@ export function UserTable({
     try {
       await onStatusChange(userId, isActive);
       toast({
-        title: "Status updated",
-        description: `User has been ${isActive ? "enabled" : "disabled"}.`,
+        title: "Статус обновлён",
+        description: `Пользователь ${isActive ? "активирован" : "деактивирован"}.`,
       });
     } catch {
       toast({
-        title: "Error",
-        description: "Failed to update user status.",
+        title: "Ошибка",
+        description: "Не удалось обновить статус пользователя.",
         variant: "destructive",
       });
     } finally {
@@ -74,13 +74,13 @@ export function UserTable({
     try {
       await onRoleChange(userId, role);
       toast({
-        title: "Role updated",
-        description: "User role has been updated successfully.",
+        title: "Роль обновлена",
+        description: "Роль пользователя успешно обновлена.",
       });
     } catch {
       toast({
-        title: "Error",
-        description: "Failed to update user role.",
+        title: "Ошибка",
+        description: "Не удалось обновить роль пользователя.",
         variant: "destructive",
       });
     }
@@ -113,7 +113,7 @@ export function UserTable({
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search users..."
+            placeholder="Поиск пользователей..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="pl-9"
@@ -125,12 +125,12 @@ export function UserTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>User</TableHead>
+              <TableHead>Пользователь</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>Роль</TableHead>
+              <TableHead>Статус</TableHead>
+              <TableHead>Создан</TableHead>
+              <TableHead className="text-right">Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -143,7 +143,7 @@ export function UserTable({
             ) : users.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
-                  No users found.
+                  Пользователи не найдены.
                 </TableCell>
               </TableRow>
             ) : (
@@ -172,7 +172,7 @@ export function UserTable({
                   </TableCell>
                   <TableCell>
                     <Badge variant={user.is_active ? "default" : "destructive"}>
-                      {user.is_active ? "Active" : "Inactive"}
+                      {user.is_active ? "Активен" : "Неактивен"}
                     </Badge>
                   </TableCell>
                   <TableCell>{formatDate(user.created_at)}</TableCell>

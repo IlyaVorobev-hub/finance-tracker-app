@@ -16,8 +16,8 @@ export interface AuditLog {
   user_email?: string;
   action: string;
   entity_type: string;
-  entity_id: string;
-  details: Record<string, unknown>;
+  entity_id?: string | null;
+  details?: Record<string, unknown> | null;
   ip_address: string;
   created_at: string;
 }
@@ -38,9 +38,9 @@ export interface UsersResponse {
   users: Array<{
     id: string;
     email: string;
-    first_name: string;
-    last_name: string;
-    full_name: string;
+    first_name?: string;
+    last_name?: string;
+    full_name?: string;
     role: string;
     is_active: boolean;
     created_at: string;

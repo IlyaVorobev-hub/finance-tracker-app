@@ -13,7 +13,6 @@ from app.schemas.lesson import (
     LessonPaymentUpdate,
     LessonReschedule,
     LessonResponse,
-    LessonStatusUpdate,
     LessonUpdate,
     RecurrenceCreate,
 )

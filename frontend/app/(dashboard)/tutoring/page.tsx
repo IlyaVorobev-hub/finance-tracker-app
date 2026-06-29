@@ -15,22 +15,22 @@ export default function TutoringPage() {
 
   const stats = [
     {
-      label: "Total Students",
+      label: "Всего учеников",
       value: total,
       icon: Users,
     },
     {
-      label: "Active Students",
+      label: "Активные ученики",
       value: activeCount,
       icon: UserCheck,
     },
     {
-      label: "Upcoming Lessons",
+      label: "Ближайшие уроки",
       value: "--",
       icon: Calendar,
     },
     {
-      label: "Avg. Rate",
+      label: "Средняя ставка",
       value: students.length > 0
         ? formatCurrency(students.reduce((sum, s) => sum + s.lesson_price, 0) / students.length)
         : "$0",
@@ -42,13 +42,13 @@ export default function TutoringPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Overview</h2>
-          <p className="text-sm text-muted-foreground">Manage your tutoring business</p>
+          <h2 className="text-lg font-semibold">Обзор</h2>
+          <p className="text-sm text-muted-foreground">Управление вашим бизнесом репетиторства</p>
         </div>
         <Link href="/tutoring/students">
           <Button>
             <Plus className="mr-2 h-4 w-4" />
-            Add Student
+            Добавить ученика
           </Button>
         </Link>
       </div>
@@ -71,12 +71,12 @@ export default function TutoringPage() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">Recent Students</CardTitle>
+          <CardTitle className="text-lg">Последние ученики</CardTitle>
           <Link
             href="/tutoring/students"
             className="flex items-center gap-1 text-sm text-primary hover:underline"
           >
-            View all <ArrowRight className="h-4 w-4" />
+            Смотреть всё <ArrowRight className="h-4 w-4" />
           </Link>
         </CardHeader>
         <CardContent>
@@ -88,7 +88,7 @@ export default function TutoringPage() {
             <p className="text-sm text-destructive py-8 text-center">{error}</p>
           ) : students.length === 0 ? (
             <p className="text-sm text-muted-foreground py-8 text-center">
-              No students yet. Add your first student to get started.
+              Пока нет учеников. Добавьте первого ученика, чтобы начать.
             </p>
           ) : (
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

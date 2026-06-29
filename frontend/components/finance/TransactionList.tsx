@@ -65,7 +65,7 @@ export function TransactionList({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Transactions</CardTitle>
+          <CardTitle className="text-sm font-medium">Транзакции</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -82,7 +82,7 @@ export function TransactionList({
     <Card>
       <CardHeader>
         <CardTitle className="text-sm font-medium">
-          Transactions ({total})
+          Транзакции ({total})
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -97,12 +97,12 @@ export function TransactionList({
                     className="h-8 px-2"
                     onClick={() => handleSort("date")}
                   >
-                    Date
+                    Дата
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead>Категория</TableHead>
+                <TableHead>Описание</TableHead>
                 <TableHead>
                   <Button
                     variant="ghost"
@@ -110,18 +110,18 @@ export function TransactionList({
                     className="h-8 px-2"
                     onClick={() => handleSort("amount")}
                   >
-                    Amount
+                    Сумма
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="text-right">Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedTransactions.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
-                    No transactions found.
+                    Транзакции не найдены.
                   </TableCell>
                 </TableRow>
               ) : (
@@ -176,7 +176,7 @@ export function TransactionList({
         {totalPages > 1 && (
           <div className="mt-4 flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              Page {page} of {totalPages}
+              Страница {page} из {totalPages}
             </p>
             <div className="flex items-center gap-2">
               <Button

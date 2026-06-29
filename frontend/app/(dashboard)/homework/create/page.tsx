@@ -14,8 +14,8 @@ export default function CreateHomeworkPage() {
   const router = useRouter();
   const { create, isSubmitting } = useCreateHomework();
 
-  const handleSubmit = async (data: CreateHomeworkData) => {
-    const result = await create(data);
+  const handleSubmit = async (data: CreateHomeworkData | import("@/types/homework").UpdateHomeworkData) => {
+    const result = await create(data as CreateHomeworkData);
     if (result) {
       router.push(`/homework/${result.id}`);
     }
@@ -28,9 +28,9 @@ export default function CreateHomeworkPage() {
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div>
-          <h2 className="text-lg font-semibold">Create Homework</h2>
+          <h2 className="text-lg font-semibold">Создать домашнее задание</h2>
           <p className="text-sm text-muted-foreground">
-            Assign new homework to a student
+            Назначить новое домашнее задание ученику
           </p>
         </div>
       </div>

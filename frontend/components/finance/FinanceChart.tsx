@@ -41,7 +41,7 @@ export function FinanceChart({ data, isLoading }: FinanceChartProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Income vs Expenses</CardTitle>
+          <CardTitle className="text-sm font-medium">Доходы vs Расходы</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] animate-pulse rounded bg-muted" />
@@ -54,11 +54,11 @@ export function FinanceChart({ data, isLoading }: FinanceChartProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Income vs Expenses</CardTitle>
+          <CardTitle className="text-sm font-medium">Доходы vs Расходы</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[300px] items-center justify-center text-muted-foreground">
-            No data available
+            Нет данных
           </div>
         </CardContent>
       </Card>
@@ -68,7 +68,7 @@ export function FinanceChart({ data, isLoading }: FinanceChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">Income vs Expenses</CardTitle>
+        <CardTitle className="text-sm font-medium">Доходы vs Расходы</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px]">
@@ -81,13 +81,13 @@ export function FinanceChart({ data, isLoading }: FinanceChartProps) {
               <Legend />
               <Bar
                 dataKey="income"
-                name="Income"
+                name="Доход"
                 fill="hsl(142, 76%, 36%)"
                 radius={[4, 4, 0, 0]}
               />
               <Bar
                 dataKey="expenses"
-                name="Expenses"
+                name="Расходы"
                 fill="hsl(0, 84%, 60%)"
                 radius={[4, 4, 0, 0]}
               />
@@ -109,7 +109,7 @@ export function TrendChart({ data, isLoading }: TrendChartProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Trend</CardTitle>
+          <CardTitle className="text-sm font-medium">Тренд</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] animate-pulse rounded bg-muted" />
@@ -122,11 +122,11 @@ export function TrendChart({ data, isLoading }: TrendChartProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Trend</CardTitle>
+          <CardTitle className="text-sm font-medium">Тренд</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[300px] items-center justify-center text-muted-foreground">
-            No data available
+            Нет данных
           </div>
         </CardContent>
       </Card>
@@ -136,7 +136,7 @@ export function TrendChart({ data, isLoading }: TrendChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">Trend</CardTitle>
+        <CardTitle className="text-sm font-medium">Тренд</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px]">
@@ -150,7 +150,7 @@ export function TrendChart({ data, isLoading }: TrendChartProps) {
               <Line
                 type="monotone"
                 dataKey="income"
-                name="Income"
+                name="Доход"
                 stroke="hsl(142, 76%, 36%)"
                 strokeWidth={2}
                 dot={{ fill: "hsl(142, 76%, 36%)" }}
@@ -158,7 +158,7 @@ export function TrendChart({ data, isLoading }: TrendChartProps) {
               <Line
                 type="monotone"
                 dataKey="expenses"
-                name="Expenses"
+                name="Расходы"
                 stroke="hsl(0, 84%, 60%)"
                 strokeWidth={2}
                 dot={{ fill: "hsl(0, 84%, 60%)" }}

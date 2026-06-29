@@ -66,7 +66,7 @@ export function AuditLogTable({
     <div className="space-y-4">
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Filter by action:</span>
+          <span className="text-sm text-muted-foreground">Фильтр по действию:</span>
           <Select
             value={currentAction || "all"}
             onValueChange={(value) =>
@@ -74,15 +74,15 @@ export function AuditLogTable({
             }
           >
             <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="All actions" />
+              <SelectValue placeholder="Все действия" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All actions</SelectItem>
-              <SelectItem value="create">Create</SelectItem>
-              <SelectItem value="update">Update</SelectItem>
-              <SelectItem value="delete">Delete</SelectItem>
-              <SelectItem value="login">Login</SelectItem>
-              <SelectItem value="logout">Logout</SelectItem>
+              <SelectItem value="all">Все действия</SelectItem>
+              <SelectItem value="create">Создание</SelectItem>
+              <SelectItem value="update">Обновление</SelectItem>
+              <SelectItem value="delete">Удаление</SelectItem>
+              <SelectItem value="login">Вход</SelectItem>
+              <SelectItem value="logout">Выход</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -92,12 +92,12 @@ export function AuditLogTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Timestamp</TableHead>
-              <TableHead>User</TableHead>
-              <TableHead>Action</TableHead>
-              <TableHead>Entity</TableHead>
-              <TableHead>Details</TableHead>
-              <TableHead>IP Address</TableHead>
+              <TableHead>Время</TableHead>
+              <TableHead>Пользователь</TableHead>
+              <TableHead>Действие</TableHead>
+              <TableHead>Объект</TableHead>
+              <TableHead>Детали</TableHead>
+              <TableHead>IP-адрес</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -110,7 +110,7 @@ export function AuditLogTable({
             ) : logs.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
-                  No audit logs found.
+                  Журнал аудита не найден.
                 </TableCell>
               </TableRow>
             ) : (
@@ -145,7 +145,7 @@ export function AuditLogTable({
 
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          Page {page} of {totalPages || 1} ({total} total logs)
+          Страница {page} из {totalPages || 1} (всего {total} записей)
         </p>
         <div className="flex items-center gap-2">
           <Button
@@ -155,7 +155,7 @@ export function AuditLogTable({
             disabled={page <= 1 || isLoading}
           >
             <ChevronLeft className="h-4 w-4" />
-            Previous
+            Назад
           </Button>
           <Button
             variant="outline"
@@ -163,7 +163,7 @@ export function AuditLogTable({
             onClick={() => onPageChange(page + 1)}
             disabled={page >= totalPages || isLoading}
           >
-            Next
+            Вперёд
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

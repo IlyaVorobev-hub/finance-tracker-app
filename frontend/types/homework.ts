@@ -15,13 +15,13 @@ export interface Homework {
   student_id: string;
   tutor_id: string;
   title: string;
-  description: string;
+  description?: string | null;
   type: HomeworkType;
   due_date: string;
   status: HomeworkStatus;
-  grade: number | null;
+  grade?: string | null;
   files: HomeworkFile[];
-  student_name: string;
+  student_name?: string | null;
   created_at: string;
 }
 

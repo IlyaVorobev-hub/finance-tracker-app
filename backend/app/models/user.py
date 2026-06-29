@@ -17,6 +17,8 @@ class User(TimestampMixin, Base):
         server_default="tutor",
     )
     is_active: Mapped[bool] = mapped_column(nullable=False, server_default="true")
+    email_verified: Mapped[bool] = mapped_column(nullable=False, server_default="false")
+    token_version: Mapped[int] = mapped_column(nullable=False, server_default="0")
 
     profile: Mapped["UserProfile | None"] = relationship(
         "UserProfile", back_populates="user", uselist=False, cascade="all, delete-orphan"

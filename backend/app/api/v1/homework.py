@@ -135,7 +135,7 @@ async def upload_file(
         file_data = await storage_service.upload_file(
             file, bucket="homework", path=str(homework_id)
         )
-        hf = await homework_service.add_file(db, homework_id, file_data)
+        hf = await homework_service.add_file(db, homework_id, current_user.id, file_data)
         return hf
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -161,8 +161,9 @@ async def get_student_homework(
     current_user: User = Depends(get_current_active_user),
 ):
     if current_user.role == "student":
-        from app.models.student import Student
         from sqlalchemy import select
+
+        from app.models.student import Student
 
         result = await db.execute(
             select(Student).where(Student.id == student_id, Student.email == current_user.email)

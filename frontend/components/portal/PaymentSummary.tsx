@@ -18,7 +18,7 @@ export function PaymentSummary() {
   if (error) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p>Failed to load payments</p>
+        <p>Не удалось загрузить платежи</p>
       </div>
     );
   }
@@ -32,11 +32,11 @@ export function PaymentSummary() {
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="rounded-lg border bg-card p-4">
-          <p className="text-sm text-muted-foreground">Total Paid</p>
+          <p className="text-sm text-muted-foreground">Всего оплачено</p>
           <p className="text-2xl font-bold">{formatCurrency(totalPaid)}</p>
         </div>
         <div className="rounded-lg border bg-card p-4">
-          <p className="text-sm text-muted-foreground">Last Payment</p>
+          <p className="text-sm text-muted-foreground">Последний платёж</p>
           <p className="text-lg font-semibold">
             {lastPayment ? formatDate(lastPayment.date) : "N/A"}
           </p>

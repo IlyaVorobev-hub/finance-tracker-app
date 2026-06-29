@@ -18,7 +18,7 @@ export function MonthlySummary({ income, expenses, isLoading }: MonthlySummaryPr
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Monthly Summary</CardTitle>
+          <CardTitle className="text-sm font-medium">Месячный итог</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -37,12 +37,12 @@ export function MonthlySummary({ income, expenses, isLoading }: MonthlySummaryPr
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm font-medium">Monthly Summary</CardTitle>
+        <CardTitle className="text-sm font-medium">Месячный итог</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Income</span>
+            <span className="text-muted-foreground">Доход</span>
             <span className="font-medium text-emerald-600 dark:text-emerald-400">
               {formatCurrency(income)}
             </span>
@@ -56,7 +56,7 @@ export function MonthlySummary({ income, expenses, isLoading }: MonthlySummaryPr
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Expenses</span>
+            <span className="text-muted-foreground">Расходы</span>
             <span className="font-medium text-red-600 dark:text-red-400">
               {formatCurrency(expenses)}
             </span>
@@ -70,7 +70,7 @@ export function MonthlySummary({ income, expenses, isLoading }: MonthlySummaryPr
         </div>
         <div className="border-t pt-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Net Profit</span>
+            <span className="text-sm font-medium">Чистая прибыль</span>
             <span
               className={cn(
                 "text-lg font-bold",

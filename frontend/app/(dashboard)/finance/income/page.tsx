@@ -29,10 +29,10 @@ export default function IncomePage() {
   const handleDelete = async (transaction: Transaction) => {
     const success = await deleteTransaction(transaction.id);
     if (success) {
-      toast({ title: "Income deleted" });
+      toast({ title: "Доход удалён" });
       refetch();
     } else {
-      toast({ title: "Error", description: "Failed to delete income.", variant: "destructive" });
+      toast({ title: "Ошибка", description: "Не удалось удалить доход.", variant: "destructive" });
     }
   };
 
@@ -40,18 +40,18 @@ export default function IncomePage() {
     if (editingTransaction) {
       const result = await updateTransaction(editingTransaction.id, formData);
       if (result) {
-        toast({ title: "Income updated" });
+        toast({ title: "Доход обновлён" });
         refetch();
       } else {
-        toast({ title: "Error", description: "Failed to update income.", variant: "destructive" });
+        toast({ title: "Ошибка", description: "Не удалось обновить доход.", variant: "destructive" });
       }
     } else {
       const result = await createTransaction({ ...formData, type: "income" });
       if (result) {
-        toast({ title: "Income added" });
+        toast({ title: "Доход добавлен" });
         refetch();
       } else {
-        toast({ title: "Error", description: "Failed to add income.", variant: "destructive" });
+        toast({ title: "Ошибка", description: "Не удалось добавить доход.", variant: "destructive" });
       }
     }
   };
@@ -60,12 +60,12 @@ export default function IncomePage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Income</h2>
-          <p className="text-muted-foreground">Track and manage your income sources.</p>
+          <h2 className="text-2xl font-bold tracking-tight">Доход</h2>
+          <p className="text-muted-foreground">Отслеживайте и управляйте источниками дохода.</p>
         </div>
         <Button onClick={() => setFormOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Income
+          Добавить доход
         </Button>
       </div>
       <TransactionList

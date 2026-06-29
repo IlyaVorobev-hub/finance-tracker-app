@@ -26,10 +26,10 @@ import {
 import { Loader2 } from "lucide-react";
 
 const transactionSchema = z.object({
-  amount: z.number().positive("Amount must be positive"),
-  date: z.string().min(1, "Date is required"),
-  category_id: z.string().min(1, "Category is required"),
-  description: z.string().optional(),
+  amount: z.number().positive("Сумма должна быть положительной"),
+  date: z.string().min(1, "Дата обязательна"),
+  category_id: z.string().min(1, "Категория обязательна"),
+  description: z.string().default(""),
   type: z.enum(["income", "expense"]),
 });
 
@@ -59,7 +59,7 @@ export function TransactionForm({
     watch,
     reset,
     formState: { errors },
-  } = useForm<TransactionFormData>({
+  } = useForm({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
       amount: 0,
@@ -100,17 +100,17 @@ export function TransactionForm({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {transaction ? "Edit" : "Add"} {type === "income" ? "Income" : "Expense"}
+            {transaction ? "Редактировать" : "Добавить"} {type === "income" ? "доход" : "расход"}
           </DialogTitle>
           <DialogDescription>
             {transaction
-              ? "Update the transaction details below."
-              : "Enter the details for the new transaction."}
+              ? "Обновите данные транзакции ниже."
+              : "Введите данные для новой транзакции."}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="amount">Amount</Label>
+            <Label htmlFor="amount">Сумма</Label>
             <Input
               id="amount"
               type="number"
@@ -124,20 +124,20 @@ export function TransactionForm({
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="date">Date</Label>
+            <Label htmlFor="date">Дата</Label>
             <Input id="date" type="date" {...register("date")} />
             {errors.date && (
               <p className="text-sm text-destructive">{errors.date.message}</p>
             )}
           </div>
           <div className="space-y-2">
-            <Label>Category</Label>
+            <Label>Категория</Label>
             <Select
               value={selectedCategoryId}
               onValueChange={(value) => setValue("category_id", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder="Выберите категорию" />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((category) => (
@@ -152,10 +152,10 @@ export function TransactionForm({
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Описание</Label>
             <Input
               id="description"
-              placeholder="Optional description"
+              placeholder="Необязательное описание"
               {...register("description")}
             />
           </div>
@@ -165,11 +165,11 @@ export function TransactionForm({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              Отмена
             </Button>
             <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {transaction ? "Update" : "Add"} {type === "income" ? "Income" : "Expense"}
+              {transaction ? "Обновить" : "Добавить"} {type === "income" ? "доход" : "расход"}
             </Button>
           </DialogFooter>
         </form>

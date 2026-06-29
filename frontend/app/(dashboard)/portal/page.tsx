@@ -9,10 +9,10 @@ import { Calendar, BookOpen, CreditCard, Clock } from "lucide-react";
 import Link from "next/link";
 
 const quickLinks = [
-  { label: "View Schedule", href: "/portal/schedule", icon: Calendar },
-  { label: "View Homework", href: "/portal/homework", icon: BookOpen },
-  { label: "View Payments", href: "/portal/payments", icon: CreditCard },
-  { label: "View History", href: "/portal/history", icon: Clock },
+  { label: "Расписание", href: "/portal/schedule", icon: Calendar },
+  { label: "Домашние задания", href: "/portal/homework", icon: BookOpen },
+  { label: "Платежи", href: "/portal/payments", icon: CreditCard },
+  { label: "История", href: "/portal/history", icon: Clock },
 ];
 
 export default function PortalPage() {
@@ -22,10 +22,10 @@ export default function PortalPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">
-          Welcome back, {user?.first_name}!
+          С возвращением, {user?.first_name}!
         </h1>
         <p className="text-muted-foreground">
-          Here's an overview of your learning journey.
+          Вот обзор вашего учебного пути.
         </p>
       </div>
 
@@ -49,7 +49,7 @@ export default function PortalPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-5 w-5" />
-              Upcoming Lessons
+              Ближайшие уроки
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -61,7 +61,7 @@ export default function PortalPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BookOpen className="h-5 w-5" />
-              Pending Homework
+              Ожидающие задания
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -74,7 +74,7 @@ export default function PortalPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CreditCard className="h-5 w-5" />
-            Payment Summary
+            Итоги по платежам
           </CardTitle>
         </CardHeader>
         <CardContent>

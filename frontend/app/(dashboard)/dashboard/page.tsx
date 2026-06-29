@@ -31,7 +31,7 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           data={{
-            label: "Current Balance",
+            label: "Текущий баланс",
             value: dashboardData?.current_balance ?? 0,
             icon: DollarSign,
             format: "currency",
@@ -39,7 +39,7 @@ export default function DashboardPage() {
         />
         <StatsCard
           data={{
-            label: "Monthly Income",
+            label: "Доход за месяц",
             value: dashboardData?.month_income ?? 0,
             icon: TrendingUp,
             format: "currency",
@@ -47,7 +47,7 @@ export default function DashboardPage() {
         />
         <StatsCard
           data={{
-            label: "Monthly Expenses",
+            label: "Расходы за месяц",
             value: dashboardData?.month_expenses ?? 0,
             icon: TrendingDown,
             format: "currency",
@@ -55,7 +55,7 @@ export default function DashboardPage() {
         />
         <StatsCard
           data={{
-            label: "Active Students",
+            label: "Активные ученики",
             value: students?.filter((s) => s.status === "active").length ?? 0,
             icon: Users,
             format: "number",

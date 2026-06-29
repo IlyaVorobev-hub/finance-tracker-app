@@ -114,11 +114,11 @@ export function StudentForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Edit Student" : "Add Student"}</DialogTitle>
+          <DialogTitle>{isEditing ? "Редактировать ученика" : "Добавить ученика"}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the student information below."
-              : "Fill in the details to add a new student."}
+              ? "Обновите информацию об ученике ниже."
+              : "Заполните данные для добавления нового ученика."}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -129,7 +129,7 @@ export function StudentForm({
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>Имя</FormLabel>
                     <FormControl>
                       <Input placeholder="John" {...field} />
                     </FormControl>
@@ -142,7 +142,7 @@ export function StudentForm({
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>Фамилия</FormLabel>
                     <FormControl>
                       <Input placeholder="Doe" {...field} />
                     </FormControl>
@@ -156,7 +156,7 @@ export function StudentForm({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Электронная почта</FormLabel>
                   <FormControl>
                     <Input type="email" placeholder="john@example.com" {...field} />
                   </FormControl>
@@ -169,7 +169,7 @@ export function StudentForm({
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>Телефон</FormLabel>
                   <FormControl>
                     <Input placeholder="(555) 123-4567" {...field} />
                   </FormControl>
@@ -183,7 +183,7 @@ export function StudentForm({
                 name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subject</FormLabel>
+                    <FormLabel>Предмет</FormLabel>
                     <FormControl>
                       <Input placeholder="Mathematics" {...field} />
                     </FormControl>
@@ -196,7 +196,7 @@ export function StudentForm({
                 name="lesson_price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Lesson Price ($)</FormLabel>
+                    <FormLabel>Стоимость урока ($)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -218,17 +218,17 @@ export function StudentForm({
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel>Статус</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select status" />
+                          <SelectValue placeholder="Выберите статус" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="paused">Paused</SelectItem>
-                        <SelectItem value="finished">Finished</SelectItem>
+                        <SelectItem value="active">Активный</SelectItem>
+                        <SelectItem value="paused">Приостановлен</SelectItem>
+                        <SelectItem value="finished">Завершён</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -241,10 +241,10 @@ export function StudentForm({
               name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Notes</FormLabel>
+                  <FormLabel>Заметки</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Additional notes about the student..."
+                      placeholder="Дополнительные заметки об ученике..."
                       className="resize-none"
                       rows={3}
                       {...field}
@@ -261,11 +261,11 @@ export function StudentForm({
                 onClick={() => onOpenChange(false)}
                 disabled={isLoading}
               >
-                Cancel
+                Отмена
               </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isEditing ? "Update" : "Create"}
+                {isEditing ? "Обновить" : "Создать"}
               </Button>
             </DialogFooter>
           </form>

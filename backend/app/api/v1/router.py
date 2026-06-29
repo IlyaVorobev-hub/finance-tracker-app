@@ -2,9 +2,9 @@ from fastapi import APIRouter
 
 from app.api.v1.admin import router as admin_router
 from app.api.v1.auth import router as auth_router
+from app.api.v1.files import router as files_router
 from app.api.v1.finance import router as finance_router
 from app.api.v1.homework import router as homework_router
-from app.api.v1.files import router as files_router
 from app.api.v1.lessons import router as lessons_router
 from app.api.v1.portal import router as portal_router
 from app.api.v1.students import router as students_router

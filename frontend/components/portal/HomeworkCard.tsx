@@ -15,15 +15,15 @@ interface HomeworkCardProps {
 
 const statusConfig = {
   pending: {
-    label: "Pending",
+    label: "Ожидает",
     className: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
   },
   submitted: {
-    label: "Submitted",
+    label: "Отправлено",
     className: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
   },
   graded: {
-    label: "Graded",
+    label: "Оценено",
     className: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
   },
 };
@@ -43,11 +43,11 @@ export function HomeworkCard({
         <h4 className="font-medium">{title}</h4>
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">Due: {dueDate}</span>
+          <span className="text-sm text-muted-foreground">Срок: {dueDate}</span>
         </div>
         {grade && (
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Grade: {grade}</span>
+            <span className="text-sm font-medium">Оценка: {grade}</span>
           </div>
         )}
       </div>
@@ -58,13 +58,13 @@ export function HomeworkCard({
         {files.length > 0 && (
           <div className="flex items-center gap-2">
             <FileText className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">{files.length} file(s)</span>
+            <span className="text-sm text-muted-foreground">{files.length} файл(ов)</span>
           </div>
         )}
         {files.length > 0 && (
           <Button variant="ghost" size="sm" className="h-8">
             <Download className="mr-1 h-3 w-3" />
-            Download
+            Скачать
           </Button>
         )}
       </div>

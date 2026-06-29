@@ -81,10 +81,10 @@ export function HomeworkForm({
 
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
-    if (!title.trim()) errs.title = "Title is required.";
-    if (!studentId) errs.student_id = "Student is required.";
-    if (!dueDate) errs.due_date = "Due date is required.";
-    if (description.length > 2000) errs.description = "Description is too long.";
+    if (!title.trim()) errs.title = "Заголовок обязателен.";
+    if (!studentId) errs.student_id = "Ученик обязателен.";
+    if (!dueDate) errs.due_date = "Срок сдачи обязателен.";
+    if (description.length > 2000) errs.description = "Описание слишком длинное.";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -111,13 +111,13 @@ export function HomeworkForm({
       <Card>
         <CardHeader>
           <CardTitle>
-            {mode === "create" ? "Create Homework" : "Edit Homework"}
+            {mode === "create" ? "Создать домашнее задание" : "Редактировать домашнее задание"}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {mode === "create" && (
             <div className="space-y-2">
-              <Label htmlFor="student">Student *</Label>
+              <Label htmlFor="student">Ученик *</Label>
               <Select
                 value={studentId}
                 onValueChange={setStudentId}
@@ -126,7 +126,7 @@ export function HomeworkForm({
                 <SelectTrigger id="student">
                   <SelectValue
                     placeholder={
-                      isLoadingStudents ? "Loading students..." : "Select student"
+                      isLoadingStudents ? "Загрузка учеников..." : "Выберите ученика"
                     }
                   />
                 </SelectTrigger>
@@ -145,12 +145,12 @@ export function HomeworkForm({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">Заголовок *</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Homework title"
+              placeholder="Название задания"
             />
             {errors.title && (
               <p className="text-sm text-destructive">{errors.title}</p>
@@ -158,12 +158,12 @@ export function HomeworkForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Описание</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe the homework assignment..."
+              placeholder="Опишите домашнее задание..."
               rows={4}
             />
             {errors.description && (
@@ -173,7 +173,7 @@ export function HomeworkForm({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="type">Type</Label>
+              <Label htmlFor="type">Тип</Label>
               <Select
                 value={type}
                 onValueChange={(v) => setType(v as HomeworkType)}
@@ -182,15 +182,15 @@ export function HomeworkForm({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="text">Text</SelectItem>
-                  <SelectItem value="file">File</SelectItem>
-                  <SelectItem value="mixed">Mixed</SelectItem>
+                  <SelectItem value="text">Текст</SelectItem>
+                  <SelectItem value="file">Файл</SelectItem>
+                  <SelectItem value="mixed">Смешанный</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="due_date">Due Date *</Label>
+              <Label htmlFor="due_date">Срок сдачи *</Label>
               <Input
                 id="due_date"
                 type="date"
@@ -208,14 +208,14 @@ export function HomeworkForm({
       <div className="flex items-center justify-end gap-3">
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
+            Отмена
           </Button>
         )}
         <Button type="submit" disabled={isSubmitting || isUploading}>
           {(isSubmitting || isUploading) && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-          {mode === "create" ? "Create Homework" : "Save Changes"}
+          {mode === "create" ? "Создать домашнее задание" : "Сохранить изменения"}
         </Button>
       </div>
     </form>

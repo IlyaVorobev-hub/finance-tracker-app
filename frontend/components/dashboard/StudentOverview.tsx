@@ -24,7 +24,7 @@ export function StudentOverview({ students = [], isLoading }: StudentOverviewPro
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Student Overview</CardTitle>
+          <CardTitle className="text-lg">Обзор учеников</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -40,7 +40,7 @@ export function StudentOverview({ students = [], isLoading }: StudentOverviewPro
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Student Overview</CardTitle>
+        <CardTitle className="text-lg">Обзор учеников</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-4 mb-6">
@@ -49,14 +49,14 @@ export function StudentOverview({ students = [], isLoading }: StudentOverviewPro
           </div>
           <div>
             <p className="text-2xl font-bold">{stats.total}</p>
-            <p className="text-sm text-muted-foreground">Total Students</p>
+            <p className="text-sm text-muted-foreground">Всего учеников</p>
           </div>
         </div>
 
         <div className="space-y-4">
           <div>
             <div className="mb-1 flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Active</span>
+              <span className="text-muted-foreground">Активные</span>
               <span className="font-medium">{stats.active}</span>
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
@@ -69,7 +69,7 @@ export function StudentOverview({ students = [], isLoading }: StudentOverviewPro
 
           <div>
             <div className="mb-1 flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Paused</span>
+              <span className="text-muted-foreground">Приостановлены</span>
               <span className="font-medium">{stats.paused}</span>
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
@@ -82,7 +82,7 @@ export function StudentOverview({ students = [], isLoading }: StudentOverviewPro
 
           <div>
             <div className="mb-1 flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Finished</span>
+              <span className="text-muted-foreground">Завершены</span>
               <span className="font-medium">{stats.finished}</span>
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-muted">

@@ -10,10 +10,10 @@ import { Loader2, Search } from "lucide-react";
 type FilterStatus = "all" | "pending" | "submitted" | "graded";
 
 const statusFilters: { label: string; value: FilterStatus }[] = [
-  { label: "All", value: "all" },
-  { label: "Pending", value: "pending" },
-  { label: "Submitted", value: "submitted" },
-  { label: "Graded", value: "graded" },
+  { label: "Все", value: "all" },
+  { label: "Ожидает", value: "pending" },
+  { label: "Отправлено", value: "submitted" },
+  { label: "Оценено", value: "graded" },
 ];
 
 export default function HomeworkPage() {
@@ -40,9 +40,9 @@ export default function HomeworkPage() {
   if (error) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p>Failed to load homework</p>
+        <p>Не удалось загрузить домашние задания</p>
         <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>
-          Retry
+          Повторить
         </Button>
       </div>
     );
@@ -51,15 +51,15 @@ export default function HomeworkPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Homework</h1>
-        <p className="text-muted-foreground">View and manage your assigned homework.</p>
+        <h1 className="text-2xl font-bold">Домашние задания</h1>
+        <p className="text-muted-foreground">Просмотр и управление вашими домашними заданиями.</p>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search homework..."
+            placeholder="Поиск заданий..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -81,7 +81,7 @@ export default function HomeworkPage() {
 
       {filteredHomework.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <p>No homework found</p>
+          <p>Домашние задания не найдены</p>
         </div>
       ) : (
         <div className="space-y-3">

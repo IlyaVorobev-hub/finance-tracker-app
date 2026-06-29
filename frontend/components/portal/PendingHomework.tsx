@@ -25,7 +25,7 @@ export function PendingHomework() {
   if (error) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p>Failed to load homework</p>
+        <p>Не удалось загрузить домашние задания</p>
       </div>
     );
   }
@@ -33,7 +33,7 @@ export function PendingHomework() {
   if (pendingHomework.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p>No pending homework</p>
+        <p>Нет ожидающих заданий</p>
       </div>
     );
   }
@@ -42,7 +42,7 @@ export function PendingHomework() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-muted-foreground">
-          {pendingHomework.length} pending
+          {pendingHomework.length} ожидающих
         </span>
       </div>
       <div className="space-y-3">
@@ -59,7 +59,7 @@ export function PendingHomework() {
       </div>
       <div className="flex justify-center">
         <Button asChild variant="ghost" size="sm">
-          <Link href="/portal/homework">View All Homework</Link>
+          <Link href="/portal/homework">Все задания</Link>
         </Button>
       </div>
     </div>

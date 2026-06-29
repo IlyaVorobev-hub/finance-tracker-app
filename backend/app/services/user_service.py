@@ -29,14 +29,15 @@ async def get_user(db: AsyncSession, user_id: uuid.UUID) -> User:
 
 
 async def create_user(db: AsyncSession, data: UserCreate) -> User:
-    existing = await db.execute(select(User).where(User.email == data.email))
+    email = data.email.lower()
+    existing = await db.execute(select(User).where(User.email == email))
     if existing.scalar_one_or_none() is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Email already registered",
         )
     user = User(
-        email=data.email,
+        email=email,
         password_hash=hash_password(data.password),
         role=data.role,
         is_active=True,
@@ -57,7 +58,15 @@ async def create_user(db: AsyncSession, data: UserCreate) -> User:
 async def update_user(db: AsyncSession, user_id: uuid.UUID, data: UserUpdate) -> User:
     user = await get_user(db, user_id)
     if data.email is not None:
-        user.email = data.email
+        new_email = data.email.lower()
+        if new_email != user.email:
+            existing = await db.execute(select(User).where(User.email == new_email))
+            if existing.scalar_one_or_none() is not None:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Email already registered",
+                )
+            user.email = new_email
     if data.role is not None:
         user.role = data.role
     if data.is_active is not None:
@@ -69,13 +78,38 @@ async def update_user(db: AsyncSession, user_id: uuid.UUID, data: UserUpdate) ->
 
 async def delete_user(db: AsyncSession, user_id: uuid.UUID) -> None:
     user = await get_user(db, user_id)
-    await db.delete(user)
+    if user.role == "super_admin":
+        count_result = await db.execute(
+            select(func.count()).select_from(User).where(
+                User.role == "super_admin", User.is_active == True  # noqa: E712
+            )
+        )
+        if count_result.scalar_one() <= 1:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot delete the last super_admin",
+            )
+    user.is_active = False
+    user.email = f"deleted_{user.id}@removed.local"
+    user.token_version += 1
     await db.flush()
 
 
 async def update_user_role(db: AsyncSession, user_id: uuid.UUID, role: str) -> User:
     user = await get_user(db, user_id)
+    if user.role == "super_admin" and role != "super_admin":
+        count_result = await db.execute(
+            select(func.count()).select_from(User).where(
+                User.role == "super_admin", User.is_active == True  # noqa: E712
+            )
+        )
+        if count_result.scalar_one() <= 1:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot demote the last super_admin",
+            )
     user.role = role
+    user.token_version += 1
     await db.flush()
     await db.refresh(user)
     return user
@@ -83,7 +117,19 @@ async def update_user_role(db: AsyncSession, user_id: uuid.UUID, role: str) -> U
 
 async def update_user_status(db: AsyncSession, user_id: uuid.UUID, is_active: bool) -> User:
     user = await get_user(db, user_id)
+    if user.role == "super_admin" and not is_active:
+        count_result = await db.execute(
+            select(func.count()).select_from(User).where(
+                User.role == "super_admin", User.is_active == True  # noqa: E712
+            )
+        )
+        if count_result.scalar_one() <= 1:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot deactivate the last active super_admin",
+            )
     user.is_active = is_active
+    user.token_version += 1
     await db.flush()
     await db.refresh(user)
     return user
@@ -92,12 +138,14 @@ async def update_user_status(db: AsyncSession, user_id: uuid.UUID, is_active: bo
 async def change_password(
     db: AsyncSession, user: User, old_password: str, new_password: str
 ) -> None:
-    from app.security.password import verify_password, hash_password
+    from app.security.password import hash_password, validate_password_strength, verify_password
 
     if not verify_password(old_password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect password",
         )
+    validate_password_strength(new_password)
     user.password_hash = hash_password(new_password)
+    user.token_version += 1
     await db.flush()

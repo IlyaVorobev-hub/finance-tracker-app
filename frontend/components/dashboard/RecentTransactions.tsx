@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRight, ArrowDownRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import type { Transaction } from "@/types/dashboard";
 
 interface RecentTransactionsProps {
@@ -18,7 +19,7 @@ export function RecentTransactions({ transactions, isLoading }: RecentTransactio
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Recent Transactions</CardTitle>
+          <CardTitle className="text-lg">Последние операции</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -32,10 +33,10 @@ export function RecentTransactions({ transactions, isLoading }: RecentTransactio
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-lg">Recent Transactions</CardTitle>
+        <CardTitle className="text-lg">Последние операции</CardTitle>
         <Link href="/finance">
           <Button variant="ghost" size="sm">
-            View All
+            Все
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
@@ -43,7 +44,7 @@ export function RecentTransactions({ transactions, isLoading }: RecentTransactio
       <CardContent>
         {transactions.length === 0 ? (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            No recent transactions
+            Нет операций
           </p>
         ) : (
           <div className="space-y-4">
@@ -72,7 +73,7 @@ export function RecentTransactions({ transactions, isLoading }: RecentTransactio
                       {transaction.description || transaction.category?.name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {format(new Date(transaction.date), "MMM d, yyyy")}
+                      {format(new Date(transaction.date), "d MMM yyyy", { locale: ru })}
                     </p>
                   </div>
                 </div>
@@ -84,8 +85,8 @@ export function RecentTransactions({ transactions, isLoading }: RecentTransactio
                       : "text-red-500"
                   )}
                 >
-                  {transaction.type === "income" ? "+" : "-"}$
-                  {Math.abs(transaction.amount).toFixed(2)}
+                  {transaction.type === "income" ? "+" : "-"}
+                  {Math.abs(transaction.amount).toFixed(0)} ₽
                 </p>
               </div>
             ))}

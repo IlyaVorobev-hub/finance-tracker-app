@@ -85,15 +85,15 @@ export default function HomeworkPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Homework</h2>
+          <h2 className="text-lg font-semibold">Домашние задания</h2>
           <p className="text-sm text-muted-foreground">
-            Manage homework assignments for your students
+            Управление домашними заданиями для ваших учеников
           </p>
         </div>
         <Link href="/homework/create">
           <Button>
             <Plus className="mr-2 h-4 w-4" />
-            Create Homework
+            Создать домашнее задание
           </Button>
         </Link>
       </div>
@@ -105,14 +105,14 @@ export default function HomeworkPage() {
             onValueChange={handleStatusChange}
           >
             <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Status" />
+              <SelectValue placeholder="Статус" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="submitted">Submitted</SelectItem>
-              <SelectItem value="graded">Graded</SelectItem>
-              <SelectItem value="archived">Archived</SelectItem>
+              <SelectItem value="all">Все статусы</SelectItem>
+              <SelectItem value="pending">Ожидает</SelectItem>
+              <SelectItem value="submitted">Отправлено</SelectItem>
+              <SelectItem value="graded">Оценено</SelectItem>
+              <SelectItem value="archived">В архиве</SelectItem>
             </SelectContent>
           </Select>
 
@@ -121,10 +121,10 @@ export default function HomeworkPage() {
             onValueChange={handleStudentChange}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="All Students" />
+              <SelectValue placeholder="Все ученики" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Students</SelectItem>
+              <SelectItem value="all">Все ученики</SelectItem>
               {students.map((s) => (
                 <SelectItem key={s.id} value={s.id}>
                   {s.name}
@@ -163,7 +163,7 @@ export default function HomeworkPage() {
           <CardContent className="py-12 text-center">
             <p className="text-sm text-destructive">{error}</p>
             <Button variant="link" onClick={() => window.location.reload()}>
-              Try again
+              Попробовать снова
             </Button>
           </CardContent>
         </Card>
@@ -171,11 +171,11 @@ export default function HomeworkPage() {
         <Card>
           <CardContent className="py-12 text-center">
             <p className="text-muted-foreground">
-              No homework assignments found.
+              Домашние задания не найдены.
             </p>
             <Link href="/homework/create">
               <Button variant="link" className="mt-2">
-                Create your first assignment
+                Создайте первое задание
               </Button>
             </Link>
           </CardContent>
@@ -201,7 +201,7 @@ export default function HomeworkPage() {
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <span className="text-sm text-muted-foreground">
-            Page {filters.page ?? 1} of {totalPages}
+            Страница {filters.page ?? 1} из {totalPages}
           </span>
           <Button
             variant="outline"

@@ -21,20 +21,20 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Analytics</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Аналитика</h2>
         <p className="text-muted-foreground">
-          Analyze your financial trends and patterns.
+          Анализируйте финансовые тенденции и закономерности.
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-medium">Date Range</CardTitle>
+          <CardTitle className="text-sm font-medium">Период</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap items-end gap-4">
             <div className="space-y-2">
-              <Label htmlFor="start-date">Start Date</Label>
+              <Label htmlFor="start-date">Дата начала</Label>
               <Input
                 id="start-date"
                 type="date"
@@ -43,7 +43,7 @@ export default function AnalyticsPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="end-date">End Date</Label>
+              <Label htmlFor="end-date">Дата окончания</Label>
               <Input
                 id="end-date"
                 type="date"
@@ -51,7 +51,7 @@ export default function AnalyticsPage() {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
-            <Button onClick={() => refetch()}>Apply</Button>
+            <Button onClick={() => refetch()}>Применить</Button>
           </div>
         </CardContent>
       </Card>
@@ -59,7 +59,7 @@ export default function AnalyticsPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Income</CardTitle>
+            <CardTitle className="text-sm font-medium">Общий доход</CardTitle>
             <TrendingUp className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
@@ -74,7 +74,7 @@ export default function AnalyticsPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
+            <CardTitle className="text-sm font-medium">Общий расход</CardTitle>
             <TrendingDown className="h-4 w-4 text-red-600 dark:text-red-400" />
           </CardHeader>
           <CardContent>
@@ -89,7 +89,7 @@ export default function AnalyticsPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Net Profit</CardTitle>
+            <CardTitle className="text-sm font-medium">Чистая прибыль</CardTitle>
             <Calculator className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -104,7 +104,7 @@ export default function AnalyticsPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Daily Average</CardTitle>
+            <CardTitle className="text-sm font-medium">Среднее за день</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -113,11 +113,11 @@ export default function AnalyticsPage() {
             ) : (
               <div className="space-y-1">
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Income: </span>
+                  <span className="text-muted-foreground">Доход: </span>
                   <span className="font-medium">{formatCurrency(data?.avg_income ?? 0)}</span>
                 </div>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Expenses: </span>
+                  <span className="text-muted-foreground">Расходы: </span>
                   <span className="font-medium">{formatCurrency(data?.avg_expenses ?? 0)}</span>
                 </div>
               </div>

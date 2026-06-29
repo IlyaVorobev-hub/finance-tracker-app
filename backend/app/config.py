@@ -1,4 +1,10 @@
+import secrets
+
 from pydantic_settings import BaseSettings
+
+
+def _generate_secret() -> str:
+    return secrets.token_hex(32)
 
 
 class Settings(BaseSettings):
@@ -9,10 +15,19 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/finance_tutor"
-    JWT_SECRET: str = "change-me-in-production"
+    JWT_SECRET_KEY: str = _generate_secret()
+    JWT_REFRESH_SECRET_KEY: str = _generate_secret()
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_MINUTES: int = 15
     JWT_REFRESH_EXPIRATION_DAYS: int = 7
+    PASSWORD_RESET_SECRET: str = _generate_secret()
+    PASSWORD_RESET_EXPIRATION_MINUTES: int = 30
+
+    SMTP_HOST: str = ""
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    EMAIL_FROM: str = "noreply@finance-tutor.app"
 
     SUPABASE_URL: str = ""
     SUPABASE_KEY: str = ""

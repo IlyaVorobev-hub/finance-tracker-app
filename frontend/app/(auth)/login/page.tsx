@@ -34,15 +34,15 @@ export default function LoginPage() {
     const newErrors: { email?: string; password?: string } = {};
 
     if (!email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Email обязателен";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = "Введите корректный email";
     }
 
     if (!password) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Пароль обязателен";
     } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+      newErrors.password = "Пароль должен быть не менее 6 символов";
     }
 
     setErrors(newErrors);
@@ -60,14 +60,14 @@ export default function LoginPage() {
 
     if (result.success) {
       toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
+        title: "Добро пожаловать!",
+        description: "Вы успешно вошли в систему.",
       });
       router.push("/dashboard");
     } else {
       toast({
-        title: "Sign in failed",
-        description: result.error || "Invalid credentials. Please try again.",
+        title: "Ошибка входа",
+        description: result.error || "Неверный email или пароль. Попробуйте снова.",
         variant: "destructive",
       });
     }
@@ -79,10 +79,10 @@ export default function LoginPage() {
     <Card className="border-border/50 shadow-lg">
       <CardHeader className="space-y-1 pb-4">
         <CardTitle className="text-xl font-semibold tracking-tight">
-          Sign in to your account
+          Вход в аккаунт
         </CardTitle>
         <CardDescription className="text-muted-foreground">
-          Enter your email below to sign in
+          Введите email и пароль для входа
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
@@ -112,21 +112,20 @@ export default function LoginPage() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password" className="text-sm font-medium">
-                Password
+                Пароль
               </Label>
-              <button
-                type="button"
+              <Link
+                href="/forgot-password"
                 className="text-xs text-primary hover:underline"
-                tabIndex={-1}
               >
-                Forgot password?
-              </button>
+                Забыли пароль?
+              </Link>
             </div>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder="Введите пароль"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -160,19 +159,19 @@ export default function LoginPage() {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in...
+                Вход...
               </>
             ) : (
-              "Sign in"
+              "Войти"
             )}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            Нет аккаунта?{" "}
             <Link
               href="/register"
               className="font-medium text-primary hover:underline"
             >
-              Create an account
+              Зарегистрироваться
             </Link>
           </p>
         </CardFooter>

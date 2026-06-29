@@ -12,52 +12,52 @@ interface SystemStatsProps {
 export function SystemStats({ stats }: SystemStatsProps) {
   const cards = [
     {
-      title: "Total Users",
+      title: "Всего пользователей",
       value: formatNumber(stats.total_users),
       icon: Users,
-      description: "All registered users",
+      description: "Все зарегистрированные пользователи",
     },
     {
-      title: "Tutors",
+      title: "Репетиторы",
       value: formatNumber(stats.total_tutors),
       icon: GraduationCap,
-      description: "Active tutors",
+      description: "Активные репетиторы",
     },
     {
-      title: "Students",
+      title: "Ученики",
       value: formatNumber(stats.total_students),
       icon: Users,
-      description: "Active students",
+      description: "Активные ученики",
     },
     {
-      title: "Lessons",
+      title: "Уроки",
       value: formatNumber(stats.total_lessons),
       icon: BookOpen,
-      description: "Total lessons conducted",
+      description: "Всего проведено уроков",
     },
     {
-      title: "Income",
+      title: "Доход",
       value: formatCurrency(stats.total_income),
       icon: TrendingUp,
-      description: "Total revenue",
+      description: "Общая выручка",
     },
     {
-      title: "Expenses",
+      title: "Расходы",
       value: formatCurrency(stats.total_expenses),
       icon: TrendingDown,
-      description: "Total expenses",
+      description: "Общие расходы",
     },
     {
-      title: "Active Today",
+      title: "Активны сегодня",
       value: formatNumber(stats.active_lessons_today),
       icon: Calendar,
-      description: "Lessons scheduled today",
+      description: "Запланировано уроков на сегодня",
     },
     {
-      title: "Pending Homework",
+      title: "Ожидающие ДЗ",
       value: formatNumber(stats.pending_homework),
       icon: Clock,
-      description: "Awaiting review",
+      description: "Ожидают проверки",
     },
   ];
 

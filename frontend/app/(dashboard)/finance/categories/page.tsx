@@ -27,9 +27,9 @@ export default function CategoriesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Categories</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Категории</h2>
         <p className="text-muted-foreground">
-          Organize your transactions with custom categories.
+          Организуйте транзакции с помощью пользовательских категорий.
         </p>
       </div>
       <CategoryManager

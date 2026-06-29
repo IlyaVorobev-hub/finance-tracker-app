@@ -22,6 +22,10 @@ export function UserMenu() {
       "U"
     : "U";
 
+  const fullName = user
+    ? `${user.first_name || ""} ${user.last_name || ""}`.trim() || user.email
+    : "Пользователь";
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,7 +34,7 @@ export function UserMenu() {
             {user?.avatar_url ? (
               <img
                 src={user.avatar_url}
-                alt={user.full_name}
+                alt={fullName}
                 className="h-9 w-9 rounded-full object-cover"
               />
             ) : (
@@ -43,7 +47,7 @@ export function UserMenu() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {user?.full_name || "User"}
+              {fullName}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email || "user@example.com"}
@@ -54,19 +58,19 @@ export function UserMenu() {
         <DropdownMenuItem asChild>
           <Link href="/profile" className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
-            Profile
+            Профиль
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/settings" className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
-            Settings
+            Настройки
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={signOut} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
-          Log out
+          Выйти
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

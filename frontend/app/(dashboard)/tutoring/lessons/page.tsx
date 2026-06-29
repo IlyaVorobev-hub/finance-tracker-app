@@ -85,12 +85,12 @@ export default function LessonsPage() {
   const handleCancel = async (lesson: Lesson) => {
     const success = await deleteLesson(lesson.id);
     if (success) {
-      toast({ title: "Lesson cancelled" });
+      toast({ title: "Урок отменён" });
       refetch();
     } else {
       toast({
-        title: "Error",
-        description: "Failed to cancel lesson.",
+        title: "Ошибка",
+        description: "Не удалось отменить урок.",
         variant: "destructive",
       });
     }
@@ -99,12 +99,12 @@ export default function LessonsPage() {
   const handleMarkPaid = async (lesson: Lesson) => {
     const result = await updatePayment(lesson.id, "paid");
     if (result) {
-      toast({ title: "Payment updated" });
+      toast({ title: "Платёж обновлён" });
       refetch();
     } else {
       toast({
-        title: "Error",
-        description: "Failed to update payment.",
+        title: "Ошибка",
+        description: "Не удалось обновить платёж.",
         variant: "destructive",
       });
     }
@@ -114,21 +114,21 @@ export default function LessonsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Lessons</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Уроки</h1>
           <p className="text-muted-foreground">
-            Manage your tutoring lessons
+            Управление вашими уроками репетиторства
           </p>
         </div>
         <Button onClick={() => { setEditingLesson(null); setShowForm(!showForm); }}>
           <Plus className="mr-2 h-4 w-4" />
-          Schedule Lesson
+          Запланировать урок
         </Button>
       </div>
 
       {showForm && (
         <div className="rounded-lg border border-border bg-card p-6">
           <h2 className="mb-4 text-lg font-semibold">
-            {editingLesson ? "Edit Lesson" : "New Lesson"}
+            {editingLesson ? "Редактировать урок" : "Новый урок"}
           </h2>
           <LessonForm
             lesson={editingLesson}
@@ -147,21 +147,21 @@ export default function LessonsPage() {
 
       <div className="flex flex-wrap items-end gap-4">
         <div className="space-y-2">
-          <Label>Status</Label>
+          <Label>Статус</Label>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[150px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="scheduled">Scheduled</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
+              <SelectItem value="all">Все</SelectItem>
+              <SelectItem value="scheduled">Запланирован</SelectItem>
+              <SelectItem value="completed">Завершён</SelectItem>
+              <SelectItem value="cancelled">Отменён</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label>From</Label>
+          <Label>С</Label>
           <Input
             type="date"
             value={startDate}
@@ -170,7 +170,7 @@ export default function LessonsPage() {
           />
         </div>
         <div className="space-y-2">
-          <Label>To</Label>
+          <Label>По</Label>
           <Input
             type="date"
             value={endDate}
@@ -186,7 +186,7 @@ export default function LessonsPage() {
             setStatusFilter("all");
           }}
         >
-          Clear Filters
+          Очистить фильтры
         </Button>
       </div>
 
@@ -194,7 +194,7 @@ export default function LessonsPage() {
         <div className="flex h-64 items-center justify-center">
           <div className="flex flex-col items-center gap-2">
             <CalendarIcon className="h-8 w-8 animate-pulse text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Loading lessons...</p>
+            <p className="text-sm text-muted-foreground">Загрузка уроков...</p>
           </div>
         </div>
       ) : (

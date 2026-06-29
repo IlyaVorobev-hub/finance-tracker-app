@@ -19,9 +19,9 @@ import {
 import { Button } from "@/components/ui/button";
 
 const ROLES = [
-  { value: "admin", label: "Admin" },
-  { value: "tutor", label: "Tutor" },
-  { value: "student", label: "Student" },
+  { value: "admin", label: "Администратор" },
+  { value: "tutor", label: "Репетитор" },
+  { value: "student", label: "Ученик" },
 ] as const;
 
 interface RoleSelectProps {
@@ -70,7 +70,7 @@ export function RoleSelect({
         disabled={disabled}
       >
         <SelectTrigger className="w-[120px]">
-          <SelectValue placeholder="Select role" />
+          <SelectValue placeholder="Выберите роль" />
         </SelectTrigger>
         <SelectContent>
           {ROLES.map((role) => (
@@ -84,20 +84,20 @@ export function RoleSelect({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm Role Change</DialogTitle>
+            <DialogTitle>Подтвердить смену роли</DialogTitle>
             <DialogDescription>
-              Are you sure you want to change this user's role to{" "}
+              Вы уверены, что хотите изменить роль пользователя на{" "}
               <span className="font-semibold">
                 {ROLES.find((r) => r.value === pendingRole)?.label}
               </span>
-              ? This action may affect the user's permissions.
+              ? Это действие может повлиять на разрешения пользователя.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={handleCancel}>
-              Cancel
+              Отмена
             </Button>
-            <Button onClick={handleConfirm}>Confirm</Button>
+            <Button onClick={handleConfirm}>Подтвердить</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

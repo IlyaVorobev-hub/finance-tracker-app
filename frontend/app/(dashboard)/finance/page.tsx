@@ -27,10 +27,10 @@ export default function FinanceDashboardPage() {
   const handleDelete = async (transaction: Transaction) => {
     const success = await deleteTransaction(transaction.id);
     if (success) {
-      toast({ title: "Transaction deleted" });
+      toast({ title: "Транзакция удалена" });
       refetch();
     } else {
-      toast({ title: "Error", description: "Failed to delete transaction.", variant: "destructive" });
+      toast({ title: "Ошибка", description: "Не удалось удалить транзакцию.", variant: "destructive" });
     }
   };
 
@@ -38,10 +38,10 @@ export default function FinanceDashboardPage() {
     if (editingTransaction) {
       const result = await updateTransaction(editingTransaction.id, formData);
       if (result) {
-        toast({ title: "Transaction updated" });
+        toast({ title: "Транзакция обновлена" });
         refetch();
       } else {
-        toast({ title: "Error", description: "Failed to update transaction.", variant: "destructive" });
+        toast({ title: "Ошибка", description: "Не удалось обновить транзакцию.", variant: "destructive" });
       }
     }
   };

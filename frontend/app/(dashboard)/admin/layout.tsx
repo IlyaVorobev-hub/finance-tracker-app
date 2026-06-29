@@ -8,10 +8,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const ADMIN_NAV_ITEMS = [
-  { label: "Dashboard", href: "/admin", icon: Settings },
-  { label: "Users", href: "/admin/users", icon: Users },
-  { label: "Audit Logs", href: "/admin/audit", icon: FileText },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
+  { label: "Панель", href: "/admin", icon: Settings },
+  { label: "Пользователи", href: "/admin/users", icon: Users },
+  { label: "Журнал аудита", href: "/admin/audit", icon: FileText },
+  { label: "Настройки", href: "/admin/settings", icon: Settings },
 ] as const;
 
 export default function AdminLayout({
@@ -40,7 +40,7 @@ export default function AdminLayout({
       <div className="flex h-screen items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground">Loading...</p>
+          <p className="text-sm text-muted-foreground">Загрузка...</p>
         </div>
       </div>
     );

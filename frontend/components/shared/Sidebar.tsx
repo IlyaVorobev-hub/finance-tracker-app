@@ -27,7 +27,7 @@ export function Sidebar() {
     <aside className="hidden w-64 flex-col border-r bg-sidebar text-sidebar-foreground lg:flex">
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/dashboard" className="text-xl font-bold">
-          Finance Tutor
+          Финансы и Репетиторство
         </Link>
       </div>
       <nav className="flex-1 space-y-1 p-4">
@@ -53,7 +53,7 @@ export function Sidebar() {
       </nav>
       <div className="border-t p-4">
         <p className="text-xs text-muted-foreground">
-          Finance Tutor v0.1.0
+          Финансы и Репетиторство v0.1.0
         </p>
       </div>
     </aside>

@@ -6,10 +6,10 @@ export interface Lesson {
   start_time: string;
   end_time: string;
   price: number;
-  comment: string;
+  comment?: string | null;
   status: LessonStatus;
   payment_status: PaymentStatus;
-  student_name: string;
+  student_name?: string | null;
   created_at: string;
 }
 
@@ -57,9 +57,12 @@ export interface RecurringLessonData {
 
 export interface Student {
   id: string;
-  name: string;
-  email?: string;
-  hourly_rate?: number;
+  first_name: string;
+  last_name: string;
+  email?: string | null;
+  phone?: string | null;
+  subject?: string;
+  lesson_price?: number;
   status: "active" | "paused" | "finished";
 }
 

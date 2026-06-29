@@ -96,44 +96,44 @@ export function LessonList({
         <TableHeader>
           <TableRow>
             <SortableHead
-              label="Date"
+              label="Дата"
               field="date"
               sortBy={sortBy}
               sortDirection={sortDirection}
               onSort={onSort}
             />
             <SortableHead
-              label="Student"
+              label="Ученик"
               field="student_name"
               sortBy={sortBy}
               sortDirection={sortDirection}
               onSort={onSort}
             />
-            <TableHead>Time</TableHead>
-            <TableHead>Duration</TableHead>
+            <TableHead>Время</TableHead>
+            <TableHead>Длительность</TableHead>
             <SortableHead
-              label="Price"
+              label="Цена"
               field="price"
               sortBy={sortBy}
               sortDirection={sortDirection}
               onSort={onSort}
             />
             <SortableHead
-              label="Status"
+              label="Статус"
               field="status"
               sortBy={sortBy}
               sortDirection={sortDirection}
               onSort={onSort}
             />
-            <TableHead>Payment</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead>Платёж</TableHead>
+            <TableHead className="text-right">Действия</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {lessons.length === 0 ? (
             <TableRow>
               <TableCell colSpan={8} className="h-24 text-center text-muted-foreground">
-                No lessons found.
+                Уроки не найдены.
               </TableCell>
             </TableRow>
           ) : (

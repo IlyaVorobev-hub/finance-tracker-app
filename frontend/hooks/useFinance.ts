@@ -110,7 +110,7 @@ export function useAnalytics(startDate?: string, endDate?: string) {
       if (startDate) params.append("start_date", startDate);
       if (endDate) params.append("end_date", endDate);
       const response = await apiClient.get<AnalyticsData>(
-        `/finance/analytics?${params.toString()}`
+        `/finance/analytics/summary?${params.toString()}`
       );
       setData(response.data);
     } catch (err) {

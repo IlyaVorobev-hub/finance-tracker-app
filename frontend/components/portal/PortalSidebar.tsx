@@ -15,10 +15,10 @@ import {
 import { useState } from "react";
 
 const NAV_ITEMS = [
-  { label: "Schedule", href: "/portal/schedule", icon: Calendar },
-  { label: "Homework", href: "/portal/homework", icon: BookOpen },
-  { label: "Payments", href: "/portal/payments", icon: CreditCard },
-  { label: "History", href: "/portal/history", icon: Clock },
+  { label: "Расписание", href: "/portal/schedule", icon: Calendar },
+  { label: "Домашние задания", href: "/portal/homework", icon: BookOpen },
+  { label: "Платежи", href: "/portal/payments", icon: CreditCard },
+  { label: "История", href: "/portal/history", icon: Clock },
 ];
 
 export function PortalSidebar() {
@@ -50,7 +50,7 @@ export function PortalSidebar() {
       >
         <div className="flex h-16 items-center border-b px-6">
           <Link href="/portal" className="text-xl font-bold">
-            Student Portal
+            Портал ученика
           </Link>
         </div>
         <nav className="flex-1 space-y-1 p-4">

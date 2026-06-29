@@ -1,5 +1,4 @@
 import uuid
-from datetime import date
 
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -44,11 +43,12 @@ async def list_students(
         count_query = count_query.where(Student.status == status)
 
     if search:
+        escaped_search = search.replace("%", "\\%").replace("_", "\\_")
         search_filter = or_(
-            Student.first_name.ilike(f"%{search}%"),
-            Student.last_name.ilike(f"%{search}%"),
-            Student.email.ilike(f"%{search}%"),
-            Student.subject.ilike(f"%{search}%"),
+            Student.first_name.ilike(f"%{escaped_search}%"),
+            Student.last_name.ilike(f"%{escaped_search}%"),
+            Student.email.ilike(f"%{escaped_search}%"),
+            Student.subject.ilike(f"%{escaped_search}%"),
         )
         query = query.where(search_filter)
         count_query = count_query.where(search_filter)
@@ -128,7 +128,7 @@ async def get_student_lessons(
     page: int = 1,
     per_page: int = 20,
 ) -> tuple[list[Lesson], int]:
-    student = await get_student(db, student_id, tutor_id)
+    await get_student(db, student_id, tutor_id)
 
     query = select(Lesson).where(
         Lesson.student_id == student_id, Lesson.tutor_id == tutor_id
@@ -152,7 +152,7 @@ async def get_student_lessons(
 async def get_student_payments(
     db: AsyncSession, student_id: uuid.UUID, tutor_id: uuid.UUID
 ) -> list[dict]:
-    student = await get_student(db, student_id, tutor_id)
+    await get_student(db, student_id, tutor_id)
 
     result = await db.execute(
         select(Lesson).where(

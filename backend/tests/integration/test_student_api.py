@@ -1,5 +1,12 @@
+import uuid
+from datetime import date, time, timedelta
+from decimal import Decimal
+
 import pytest
 from httpx import AsyncClient
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.models.lesson import Lesson
 
 
 @pytest.mark.asyncio
@@ -63,6 +70,16 @@ class TestStudentAPI:
         data = response.json()
         assert any("Searchable" in s["first_name"] for s in data["students"])
 
+    async def test_list_students_with_status_filter(self, client: AsyncClient, auth_headers, test_student):
+        response = await client.get(
+            "/api/v1/students",
+            params={"status": "active"},
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert all(s["status"] == "active" for s in data["students"])
+
     async def test_get_student(self, client: AsyncClient, auth_headers, test_student):
         response = await client.get(
             f"/api/v1/students/{test_student.id}",
@@ -71,6 +88,10 @@ class TestStudentAPI:
         assert response.status_code == 200
         data = response.json()
         assert data["first_name"] == "John"
+
+    async def test_get_student_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.get(f"/api/v1/students/{uuid.uuid4()}", headers=auth_headers)
+        assert response.status_code == 404
 
     async def test_update_student(self, client: AsyncClient, auth_headers, test_student):
         response = await client.put(
@@ -81,6 +102,14 @@ class TestStudentAPI:
         assert response.status_code == 200
         data = response.json()
         assert data["first_name"] == "Updated"
+
+    async def test_update_student_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.put(
+            f"/api/v1/students/{uuid.uuid4()}",
+            json={"first_name": "Updated"},
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
 
     async def test_delete_student(self, client: AsyncClient, admin_headers, test_user):
         create_response = await client.post(
@@ -101,6 +130,10 @@ class TestStudentAPI:
         )
         assert delete_response.status_code == 204
 
+    async def test_delete_student_not_found(self, client: AsyncClient, admin_headers):
+        response = await client.delete(f"/api/v1/students/{uuid.uuid4()}", headers=admin_headers)
+        assert response.status_code == 404
+
     async def test_update_student_status(self, client: AsyncClient, auth_headers, test_student):
         response = await client.patch(
             f"/api/v1/students/{test_student.id}/status",
@@ -110,6 +143,75 @@ class TestStudentAPI:
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "paused"
+
+    async def test_update_student_status_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.patch(
+            f"/api/v1/students/{uuid.uuid4()}/status",
+            json={"status": "paused"},
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
+
+    async def test_get_student_lessons(self, client: AsyncClient, auth_headers, test_student, test_user, db_session: AsyncSession):
+        lesson = Lesson(
+            id=uuid.uuid4(),
+            student_id=test_student.id,
+            tutor_id=test_user.id,
+            date=date.today() + timedelta(days=1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            price=Decimal("50.00"),
+            status="scheduled",
+            payment_status="unpaid",
+        )
+        db_session.add(lesson)
+        await db_session.commit()
+
+        response = await client.get(
+            f"/api/v1/students/{test_student.id}/lessons",
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "lessons" in data
+        assert data["total"] >= 1
+
+    async def test_get_student_lessons_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.get(
+            f"/api/v1/students/{uuid.uuid4()}/lessons",
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
+
+    async def test_get_student_payments(self, client: AsyncClient, auth_headers, test_student, test_user, db_session: AsyncSession):
+        lesson = Lesson(
+            id=uuid.uuid4(),
+            student_id=test_student.id,
+            tutor_id=test_user.id,
+            date=date.today() - timedelta(days=1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            price=Decimal("50.00"),
+            status="completed",
+            payment_status="paid",
+        )
+        db_session.add(lesson)
+        await db_session.commit()
+
+        response = await client.get(
+            f"/api/v1/students/{test_student.id}/payments",
+            headers=auth_headers,
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "payments" in data
+
+    async def test_get_student_payments_not_found(self, client: AsyncClient, auth_headers):
+        response = await client.get(
+            f"/api/v1/students/{uuid.uuid4()}/payments",
+            headers=auth_headers,
+        )
+        assert response.status_code == 404
 
     async def test_student_cannot_access_other_students(self, client: AsyncClient, test_student, test_user):
         from app.security.jwt import create_access_token

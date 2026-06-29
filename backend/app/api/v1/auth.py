@@ -4,6 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_db_session
 from app.schemas.auth import (
     PasswordChange,
+    PasswordReset,
+    PasswordResetRequest,
     TokenRefresh,
     TokenResponse,
     UserLogin,
@@ -78,3 +80,41 @@ async def change_password(
     db: AsyncSession = Depends(get_db_session),
 ):
     await user_service.change_password(db, current_user, data.old_password, data.new_password)
+
+
+@router.post("/forgot-password", status_code=status.HTTP_204_NO_CONTENT)
+@limiter.limit("3/hour")
+async def forgot_password(
+    request: Request,
+    data: PasswordResetRequest,
+    db: AsyncSession = Depends(get_db_session),
+):
+    await auth_service.forgot_password(db, data.email)
+
+
+@router.post("/reset-password", status_code=status.HTTP_204_NO_CONTENT)
+@limiter.limit("5/hour")
+async def reset_password(
+    request: Request,
+    data: PasswordReset,
+    db: AsyncSession = Depends(get_db_session),
+):
+    await auth_service.reset_password(db, data.token, data.new_password)
+
+
+@router.post("/verify-email", status_code=status.HTTP_204_NO_CONTENT)
+async def verify_email(
+    token: str,
+    db: AsyncSession = Depends(get_db_session),
+):
+    await auth_service.verify_email(db, token)
+
+
+@router.post("/resend-verification", status_code=status.HTTP_204_NO_CONTENT)
+@limiter.limit("3/hour")
+async def resend_verification(
+    request: Request,
+    current_user=Depends(get_current_active_user),
+    db: AsyncSession = Depends(get_db_session),
+):
+    await auth_service.resend_verification_email(db, current_user)

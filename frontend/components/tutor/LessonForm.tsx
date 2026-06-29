@@ -83,7 +83,7 @@ export function LessonForm({
     e.preventDefault();
 
     if (!formData.student_id) {
-      toast({ title: "Error", description: "Please select a student.", variant: "destructive" });
+      toast({ title: "Ошибка", description: "Выберите ученика.", variant: "destructive" });
       return;
     }
 
@@ -97,14 +97,14 @@ export function LessonForm({
 
     if (result) {
       toast({
-        title: isEditing ? "Lesson updated" : "Lesson created",
-        description: `Lesson with ${result.student_name} has been ${isEditing ? "updated" : "scheduled"}.`,
+        title: isEditing ? "Урок обновлён" : "Урок создан",
+        description: `Урок с ${result.student_name} был ${isEditing ? "обновлён" : "запланирован"}.`,
       });
       onSaved?.();
     } else {
       toast({
-        title: "Error",
-        description: `Failed to ${isEditing ? "update" : "create"} lesson.`,
+        title: "Ошибка",
+        description: `Не удалось ${isEditing ? "обновить" : "создать"} урок.`,
         variant: "destructive",
       });
     }
@@ -113,13 +113,13 @@ export function LessonForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="student">Student</Label>
+        <Label htmlFor="student">Ученик</Label>
         <Select
           value={formData.student_id}
           onValueChange={(value) => setFormData((f) => ({ ...f, student_id: value }))}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select a student" />
+            <SelectValue placeholder="Выберите ученика" />
           </SelectTrigger>
           <SelectContent>
             {students.map((student) => (
@@ -132,7 +132,7 @@ export function LessonForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="date">Date</Label>
+        <Label htmlFor="date">Дата</Label>
         <Input
           id="date"
           type="date"
@@ -143,7 +143,7 @@ export function LessonForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="start_time">Start Time</Label>
+          <Label htmlFor="start_time">Начало</Label>
           <Input
             id="start_time"
             type="time"
@@ -152,7 +152,7 @@ export function LessonForm({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="end_time">End Time</Label>
+          <Label htmlFor="end_time">Конец</Label>
           <Input
             id="end_time"
             type="time"
@@ -163,7 +163,7 @@ export function LessonForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="price">Price ($)</Label>
+        <Label htmlFor="price">Цена ($)</Label>
         <Input
           id="price"
           type="number"
@@ -177,10 +177,10 @@ export function LessonForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="comment">Comment</Label>
+        <Label htmlFor="comment">Комментарий</Label>
         <Textarea
           id="comment"
-          placeholder="Optional notes..."
+          placeholder="Необязательные заметки..."
           value={formData.comment}
           onChange={(e) => setFormData((f) => ({ ...f, comment: e.target.value }))}
           rows={3}
@@ -190,11 +190,11 @@ export function LessonForm({
       <div className="flex justify-end gap-2">
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
-            Cancel
+            Отмена
           </Button>
         )}
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : isEditing ? "Update Lesson" : "Schedule Lesson"}
+          {isSubmitting ? "Сохранение..." : isEditing ? "Обновить урок" : "Запланировать урок"}
         </Button>
       </div>
     </form>

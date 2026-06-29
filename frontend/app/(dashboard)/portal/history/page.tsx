@@ -44,9 +44,9 @@ export default function HistoryPage() {
   if (error) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p>Failed to load history</p>
+        <p>Не удалось загрузить историю</p>
         <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>
-          Retry
+          Повторить
         </Button>
       </div>
     );
@@ -55,15 +55,15 @@ export default function HistoryPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Lesson History</h1>
-        <p className="text-muted-foreground">View all your past lessons.</p>
+        <h1 className="text-2xl font-bold">История уроков</h1>
+        <p className="text-muted-foreground">Просмотр всех ваших прошедших уроков.</p>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by subject or tutor..."
+            placeholder="Поиск по предмету или преподавателю..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -72,14 +72,14 @@ export default function HistoryPage() {
         <div className="flex gap-2">
           <Input
             type="date"
-            placeholder="Start date"
+            placeholder="Дата начала"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             className="w-40"
           />
           <Input
             type="date"
-            placeholder="End date"
+            placeholder="Дата окончания"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             className="w-40"
@@ -89,7 +89,7 @@ export default function HistoryPage() {
 
       {paginatedLessons.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <p>No lessons found</p>
+          <p>Уроки не найдены</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -112,7 +112,7 @@ export default function HistoryPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Page {page} of {totalPages}
+            Страница {page} из {totalPages}
           </p>
           <div className="flex gap-2">
             <Button
@@ -121,7 +121,7 @@ export default function HistoryPage() {
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
             >
-              Previous
+              Назад
             </Button>
             <Button
               variant="outline"
@@ -129,7 +129,7 @@ export default function HistoryPage() {
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
             >
-              Next
+              Вперёд
             </Button>
           </div>
         </div>

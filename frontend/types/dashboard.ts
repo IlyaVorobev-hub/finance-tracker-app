@@ -32,15 +32,17 @@ export interface MonthlyData {
 
 export interface Lesson {
   id: string;
-  student_name: string;
-  subject: string;
+  student_name?: string | null;
   date: string;
-  time: string;
+  start_time: string;
+  end_time: string;
+  status: "scheduled" | "completed" | "cancelled";
 }
 
 export interface Student {
   id: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   status: "active" | "paused" | "finished";
 }
 

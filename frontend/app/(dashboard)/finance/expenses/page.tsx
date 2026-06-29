@@ -29,10 +29,10 @@ export default function ExpensesPage() {
   const handleDelete = async (transaction: Transaction) => {
     const success = await deleteTransaction(transaction.id);
     if (success) {
-      toast({ title: "Expense deleted" });
+      toast({ title: "Расход удалён" });
       refetch();
     } else {
-      toast({ title: "Error", description: "Failed to delete expense.", variant: "destructive" });
+      toast({ title: "Ошибка", description: "Не удалось удалить расход.", variant: "destructive" });
     }
   };
 
@@ -40,18 +40,18 @@ export default function ExpensesPage() {
     if (editingTransaction) {
       const result = await updateTransaction(editingTransaction.id, formData);
       if (result) {
-        toast({ title: "Expense updated" });
+        toast({ title: "Расход обновлён" });
         refetch();
       } else {
-        toast({ title: "Error", description: "Failed to update expense.", variant: "destructive" });
+        toast({ title: "Ошибка", description: "Не удалось обновить расход.", variant: "destructive" });
       }
     } else {
       const result = await createTransaction({ ...formData, type: "expense" });
       if (result) {
-        toast({ title: "Expense added" });
+        toast({ title: "Расход добавлен" });
         refetch();
       } else {
-        toast({ title: "Error", description: "Failed to add expense.", variant: "destructive" });
+        toast({ title: "Ошибка", description: "Не удалось добавить расход.", variant: "destructive" });
       }
     }
   };
@@ -60,12 +60,12 @@ export default function ExpensesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Expenses</h2>
-          <p className="text-muted-foreground">Track and manage your expenses.</p>
+          <h2 className="text-2xl font-bold tracking-tight">Расходы</h2>
+          <p className="text-muted-foreground">Отслеживайте и управляйте расходами.</p>
         </div>
         <Button onClick={() => setFormOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Expense
+          Добавить расход
         </Button>
       </div>
       <TransactionList

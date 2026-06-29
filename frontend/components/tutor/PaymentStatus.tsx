@@ -28,7 +28,7 @@ export function PaymentStatus({
             : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
         }
       >
-        {isPaid ? "Paid" : "Unpaid"}
+        {isPaid ? "Оплачен" : "Не оплачен"}
       </Badge>
     );
   }
@@ -51,7 +51,7 @@ export function PaymentStatus({
               : "bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800"
           }`}
         >
-          {isPaid ? "Paid" : "Unpaid"}
+          {isPaid ? "Оплачен" : "Не оплачен"}
         </Badge>
       )}
     </Button>

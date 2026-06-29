@@ -97,6 +97,8 @@ apiClient.interceptors.response.use(
             isRefreshing = false;
           }
         } else {
+          processQueue(new Error("No refresh token"), null);
+          isRefreshing = false;
           localStorage.removeItem(TOKEN_KEY);
           localStorage.removeItem(REFRESH_TOKEN_KEY);
           window.location.href = "/login";
@@ -112,14 +114,14 @@ export function getApiErrorMessage(error: unknown): string {
     const data = error.response?.data as ApiErrorResponse | undefined;
     if (data?.detail) return data.detail;
     if (data?.message) return data.message;
-    if (error.response?.status === 401) return "Invalid credentials";
-    if (error.response?.status === 422) return "Invalid input data";
-    if (error.response?.status === 500) return "Server error. Please try again.";
-    if (error.code === "ECONNABORTED") return "Request timed out. Please try again.";
-    if (!error.response) return "Network error. Please check your connection.";
+    if (error.response?.status === 401) return "Неверный email или пароль";
+    if (error.response?.status === 422) return "Некорректные данные";
+    if (error.response?.status === 500) return "Ошибка сервера. Попробуйте позже.";
+    if (error.code === "ECONNABORTED") return "Превышено время ожидания. Попробуйте снова.";
+    if (!error.response) return "Ошибка сети. Проверьте подключение к интернету.";
   }
   if (error instanceof Error) return error.message;
-  return "An unexpected error occurred";
+  return "Произошла непредвиденная ошибка";
 }
 
 export default apiClient;
