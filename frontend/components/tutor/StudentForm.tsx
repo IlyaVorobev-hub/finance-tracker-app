@@ -83,8 +83,8 @@ export function StudentForm({
         form.reset({
           first_name: student.first_name,
           last_name: student.last_name,
-          email: student.email,
-          phone: student.phone,
+        email: student.email ?? "",
+        phone: student.phone ?? "",
           subject: student.subject,
           lesson_price: student.lesson_price,
           notes: student.notes || "",
