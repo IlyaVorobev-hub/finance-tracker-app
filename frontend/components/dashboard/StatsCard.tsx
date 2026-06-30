@@ -28,7 +28,8 @@ const iconColor: Record<string, string> = {
 export function StatsCard({ data, className }: StatsCardProps) {
   const { label, value, trend, icon: Icon, format = "number" } = data;
 
-  const iconName = Icon.displayName || Icon.name || "";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const iconName = (Icon as any).displayName || (Icon as any).name || "";
 
   const formattedValue =
     format === "currency"
