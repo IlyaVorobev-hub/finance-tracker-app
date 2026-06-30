@@ -81,7 +81,7 @@ export default function HomeworkDetailClient({
     setEditDescription(homework.description || "");
     setEditType(homework.type);
     setEditDueDate(homework.due_date);
-    setEditGrade(homework.grade !== null ? String(homework.grade) : "");
+    setEditGrade(homework.grade != null ? String(homework.grade) : "");
     setShowEditDialog(true);
   }, [homework]);
 
@@ -92,7 +92,7 @@ export default function HomeworkDetailClient({
       description: editDescription.trim(),
       type: editType,
       due_date: editDueDate,
-      grade: editGrade ? Number(editGrade) : null,
+      grade: editGrade || null,
     });
     setShowEditDialog(false);
     refetch();
@@ -287,7 +287,7 @@ export default function HomeworkDetailClient({
                   <User className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">{homework.student_name}</p>
+                  <p className="text-sm font-medium">{homework.student_name || ""}</p>
                   <p className="text-xs text-muted-foreground">
                     ID ученика: {homework.student_id.slice(0, 8)}...
                   </p>
@@ -301,7 +301,7 @@ export default function HomeworkDetailClient({
               <CardTitle>Оценка</CardTitle>
             </CardHeader>
             <CardContent>
-              {homework.grade !== null ? (
+              {homework.grade != null ? (
                 <div className="text-center">
                   <span className="text-3xl font-bold text-green-600 dark:text-green-400">
                     {homework.grade}

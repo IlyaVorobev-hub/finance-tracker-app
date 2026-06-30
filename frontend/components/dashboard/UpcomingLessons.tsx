@@ -58,14 +58,14 @@ export function UpcomingLessons({ lessons = [], isLoading }: UpcomingLessonsProp
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{lesson.student_name}</p>
                   <p className="text-xs text-muted-foreground truncate">
-                    {lesson.comment || ""}
+                    {lesson.start_time} - {lesson.end_time}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium">
                     {format(new Date(lesson.date), "d MMM", { locale: ru })}
                   </p>
-                  <p className="text-xs text-muted-foreground">{lesson.time}</p>
+                  <p className="text-xs text-muted-foreground">{lesson.start_time}</p>
                 </div>
               </div>
             ))}

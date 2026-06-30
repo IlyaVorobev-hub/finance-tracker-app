@@ -52,7 +52,7 @@ export function PendingHomework() {
             title={hw.title}
             dueDate={hw.due_date}
             status={hw.status}
-            grade={hw.grade}
+            grade={hw.grade ?? null}
             files={hw.files}
           />
         ))}

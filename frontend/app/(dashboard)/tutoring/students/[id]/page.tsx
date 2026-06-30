@@ -218,7 +218,7 @@ export default function StudentDetailPage() {
                           <div>
                             <p className="text-sm font-medium">{lesson.student_name || lesson.comment || "Урок"}</p>
                             <p className="text-xs text-muted-foreground">
-                              {formatDate(lesson.date)} at {lesson.time}
+                              {formatDate(lesson.date)} at {lesson.start_time}
                             </p>
                           </div>
                           <Badge className={lessonStatusColor[lesson.status]}>
@@ -240,7 +240,7 @@ export default function StudentDetailPage() {
                           <div>
                             <p className="text-sm font-medium">{lesson.student_name || lesson.comment || "Урок"}</p>
                             <p className="text-xs text-muted-foreground">
-                              {formatDate(lesson.date)} at {lesson.time}
+                              {formatDate(lesson.date)} at {lesson.start_time}
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
@@ -274,18 +274,15 @@ export default function StudentDetailPage() {
               <CardContent className="p-0">
                 <div className="divide-y">
                   {payments.map((payment) => (
-                    <div key={payment.id} className="flex items-center justify-between p-4">
+                    <div key={payment.lesson_id} className="flex items-center justify-between p-4">
                       <div>
                         <p className="text-sm font-medium">
-                          {formatCurrency(payment.amount)}
+                          {formatCurrency(payment.price)}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {formatDate(payment.date)} via {payment.method}
+                          {formatDate(payment.date)} · {payment.payment_status === "paid" ? "Оплачено" : "Не оплачено"}
                         </p>
                       </div>
-                      {payment.notes && (
-                        <p className="text-xs text-muted-foreground">{payment.notes}</p>
-                      )}
                     </div>
                   ))}
                 </div>

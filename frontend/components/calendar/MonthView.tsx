@@ -103,7 +103,7 @@ export function MonthView({
                         "bg-gray-100 text-gray-800 line-through dark:bg-gray-800/30 dark:text-gray-400"
                     )}
                   >
-                    {lesson.start_time.slice(0, 5)} {lesson.student_name}
+                    {lesson.start_time.slice(0, 5)} {lesson.student_name || ""}
                   </div>
                 ))}
                 {dayLessons.length > 3 && (

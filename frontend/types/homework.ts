@@ -46,5 +46,5 @@ export interface CreateHomeworkData {
 }
 
 export interface UpdateHomeworkData extends Partial<CreateHomeworkData> {
-  grade?: number | null;
+  grade?: string | null;
 }

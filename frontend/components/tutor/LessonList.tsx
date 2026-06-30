@@ -142,7 +142,7 @@ export function LessonList({
               return (
                 <TableRow key={lesson.id}>
                   <TableCell>{format(lessonDate, "MMM d, yyyy")}</TableCell>
-                  <TableCell className="font-medium">{lesson.student_name}</TableCell>
+                  <TableCell className="font-medium">{lesson.student_name || "Ученик"}</TableCell>
                   <TableCell>
                     {lesson.start_time.slice(0, 5)} - {lesson.end_time.slice(0, 5)}
                   </TableCell>

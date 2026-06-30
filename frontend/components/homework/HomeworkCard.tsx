@@ -34,7 +34,7 @@ export function HomeworkCard({ homework, className }: HomeworkCardProps) {
             <div className="min-w-0 flex-1">
               <h3 className="truncate font-medium">{homework.title}</h3>
               <p className="mt-0.5 text-sm text-muted-foreground">
-                {homework.student_name}
+                {homework.student_name || ""}
               </p>
             </div>
             <HomeworkStatus

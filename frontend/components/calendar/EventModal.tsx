@@ -109,7 +109,7 @@ export function EventModal({
     if (result) {
       toast({
         title: isEditing ? "Урок обновлён" : "Урок создан",
-        description: `Урок с ${result.student_name} был ${isEditing ? "обновлён" : "запланирован"}.`,
+        description: `Урок с ${result.student_name ?? "учеником"} был ${isEditing ? "обновлён" : "запланирован"}.`,
       });
       onOpenChange(false);
       onSaved?.();
@@ -158,7 +158,7 @@ export function EventModal({
               <SelectContent>
                 {students.map((student) => (
                   <SelectItem key={student.id} value={student.id}>
-                    {student.name}
+                    {student.first_name} {student.last_name}
                   </SelectItem>
                 ))}
               </SelectContent>

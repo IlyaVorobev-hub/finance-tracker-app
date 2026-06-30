@@ -60,7 +60,7 @@ export function HomeworkList({ homework, className }: HomeworkListProps) {
                   </Link>
                 </TableCell>
                 <TableCell className="text-muted-foreground">
-                  {hw.student_name}
+                  {hw.student_name || ""}
                 </TableCell>
                 <TableCell>
                   <span

@@ -44,7 +44,7 @@ export function LessonCard({
       <CardContent className="p-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <h3 className="font-semibold">{lesson.student_name}</h3>
+            <h3 className="font-semibold">{lesson.student_name || "Ученик"}</h3>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-3.5 w-3.5" />
               <span>

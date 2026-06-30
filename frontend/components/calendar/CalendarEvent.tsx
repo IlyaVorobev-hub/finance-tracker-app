@@ -53,7 +53,7 @@ export function CalendarEvent({
       >
         <span className="font-medium">{startTime}</span>
         <span className="ml-1 truncate text-muted-foreground">
-          {lesson.student_name}
+          {lesson.student_name || ""}
         </span>
       </button>
     );
@@ -70,7 +70,7 @@ export function CalendarEvent({
       )}
     >
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium">{lesson.student_name}</span>
+        <span className="text-sm font-medium">{lesson.student_name || ""}</span>
         {lesson.payment_status === "paid" && (
           <span className="rounded-full bg-green-100 px-1.5 py-0.5 text-[10px] font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">
             Paid
