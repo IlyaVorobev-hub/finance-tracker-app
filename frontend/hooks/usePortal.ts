@@ -11,11 +11,10 @@ interface PortalLesson {
   start_time: string;
   end_time: string;
   price: number;
-  subject: string;
-  tutor_name: string;
+  comment: string | null;
   status: "scheduled" | "completed" | "cancelled";
   payment_status: "paid" | "unpaid";
-  comment: string;
+  created_at: string;
 }
 
 interface PortalHomework {

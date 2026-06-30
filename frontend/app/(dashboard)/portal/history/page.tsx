@@ -21,17 +21,10 @@ export default function HistoryPage() {
       if (endDate && new Date(lesson.date) > new Date(endDate)) return false;
       if (!searchQuery) return true;
       return (
-        (lesson.comment || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lesson.tutor_name.toLowerCase().includes(searchQuery.toLowerCase())
+        (lesson.comment || "").toLowerCase().includes(searchQuery.toLowerCase())
       );
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const totalPages = Math.ceil(filteredLessons.length / perPage);
-  const paginatedLessons = filteredLessons.slice(
-    (page - 1) * perPage,
-    page * perPage
-  );
 
   if (isLoading) {
     return (
@@ -99,8 +92,8 @@ export default function HistoryPage() {
               date={lesson.date}
               startTime={lesson.start_time}
               endTime={lesson.end_time}
-              studentName={lesson.student_name || ""}
-              tutorName={lesson.tutor_name}
+              studentName={""}
+              tutorName={""}
               price={lesson.price}
               status={lesson.status}
               paymentStatus={lesson.payment_status}
