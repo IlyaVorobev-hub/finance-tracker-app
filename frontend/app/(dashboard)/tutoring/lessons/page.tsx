@@ -52,7 +52,7 @@ export default function LessonsPage() {
           comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
           break;
         case "student_name":
-          comparison = a.student_name.localeCompare(b.student_name);
+          comparison = (a.student_name ?? "").localeCompare(b.student_name ?? "");
           break;
         case "price":
           comparison = a.price - b.price;
