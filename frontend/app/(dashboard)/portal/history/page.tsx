@@ -26,6 +26,9 @@ export default function HistoryPage() {
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  const paginatedLessons = filteredLessons.slice((page - 1) * perPage, page * perPage);
+  const totalPages = Math.ceil(filteredLessons.length / perPage);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
