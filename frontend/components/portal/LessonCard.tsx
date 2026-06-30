@@ -8,7 +8,7 @@ interface LessonCardProps {
   date: string;
   startTime: string;
   endTime: string;
-  subject: string;
+  studentName: string;
   tutorName: string;
   price: number;
   status: "scheduled" | "completed" | "cancelled";
@@ -34,7 +34,7 @@ export function LessonCard({
   date,
   startTime,
   endTime,
-  subject,
+  studentName,
   tutorName,
   price,
   status,
@@ -59,7 +59,7 @@ export function LessonCard({
           <User className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm">{tutorName}</span>
         </div>
-        <p className="text-sm font-medium">{subject}</p>
+        <p className="text-sm font-medium">{studentName}</p>
       </div>
       <div className="flex flex-col items-end gap-2">
         <Badge variant="outline" className={cn("border-0", statusInfo.className)}>

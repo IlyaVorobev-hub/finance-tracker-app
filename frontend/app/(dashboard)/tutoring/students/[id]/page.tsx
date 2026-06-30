@@ -216,7 +216,7 @@ export default function StudentDetailPage() {
                       <Card key={lesson.id}>
                         <CardContent className="flex items-center justify-between p-4">
                           <div>
-                            <p className="text-sm font-medium">{lesson.subject}</p>
+                            <p className="text-sm font-medium">{lesson.student_name || lesson.comment || "Урок"}</p>
                             <p className="text-xs text-muted-foreground">
                               {formatDate(lesson.date)} at {lesson.time}
                             </p>
@@ -238,7 +238,7 @@ export default function StudentDetailPage() {
                       <Card key={lesson.id}>
                         <CardContent className="flex items-center justify-between p-4">
                           <div>
-                            <p className="text-sm font-medium">{lesson.subject}</p>
+                            <p className="text-sm font-medium">{lesson.student_name || lesson.comment || "Урок"}</p>
                             <p className="text-xs text-muted-foreground">
                               {formatDate(lesson.date)} at {lesson.time}
                             </p>

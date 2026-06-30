@@ -58,7 +58,7 @@ export function UpcomingLessons({ lessons = [], isLoading }: UpcomingLessonsProp
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{lesson.student_name}</p>
                   <p className="text-xs text-muted-foreground truncate">
-                    {lesson.subject}
+                    {lesson.comment || ""}
                   </p>
                 </div>
                 <div className="text-right">

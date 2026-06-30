@@ -47,7 +47,7 @@ export function UpcomingLessons() {
             date={lesson.date}
             startTime={lesson.start_time}
             endTime={lesson.end_time}
-            subject={lesson.subject}
+            studentName={lesson.student_name || ""}
             tutorName={lesson.tutor_name}
             price={lesson.price}
             status={lesson.status}

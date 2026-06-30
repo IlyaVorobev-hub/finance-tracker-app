@@ -15,7 +15,7 @@ export default function SchedulePage() {
     .filter((lesson) => {
       if (!searchQuery) return true;
       return (
-        lesson.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (lesson.comment || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
         lesson.tutor_name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     })
@@ -71,7 +71,7 @@ export default function SchedulePage() {
               date={lesson.date}
               startTime={lesson.start_time}
               endTime={lesson.end_time}
-              subject={lesson.subject}
+              studentName={lesson.student_name || ""}
               tutorName={lesson.tutor_name}
               price={lesson.price}
               status={lesson.status}

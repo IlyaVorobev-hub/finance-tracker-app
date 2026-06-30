@@ -21,7 +21,7 @@ export default function HistoryPage() {
       if (endDate && new Date(lesson.date) > new Date(endDate)) return false;
       if (!searchQuery) return true;
       return (
-        lesson.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (lesson.comment || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
         lesson.tutor_name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     })
@@ -99,7 +99,7 @@ export default function HistoryPage() {
               date={lesson.date}
               startTime={lesson.start_time}
               endTime={lesson.end_time}
-              subject={lesson.subject}
+              studentName={lesson.student_name || ""}
               tutorName={lesson.tutor_name}
               price={lesson.price}
               status={lesson.status}
