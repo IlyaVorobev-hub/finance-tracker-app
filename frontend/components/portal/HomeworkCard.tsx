@@ -6,10 +6,11 @@ import { Calendar, FileText, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface FileItem {
-  name?: string;
+  id?: string;
   file_name: string;
-  url?: string;
   file_url: string;
+  file_type?: string;
+  file_size?: number;
 }
 
 interface HomeworkCardProps {
