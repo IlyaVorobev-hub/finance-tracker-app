@@ -5,12 +5,19 @@ import { cn } from "@/lib/utils";
 import { Calendar, FileText, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+interface FileItem {
+  name?: string;
+  file_name: string;
+  url?: string;
+  file_url: string;
+}
+
 interface HomeworkCardProps {
   title: string;
   dueDate: string;
   status: "pending" | "submitted" | "graded";
   grade: string | null;
-  files: { name?: string; file_name?: string; url?: string; file_url?: string }[];
+  files: FileItem[];
 }
 
 const statusConfig = {
