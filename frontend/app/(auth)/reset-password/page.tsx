@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Suspense, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ function getPasswordStrength(password: string): {
   return { score, label: "Надёжный", color: "bg-green-500" };
 }
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -324,5 +324,17 @@ export default function ResetPasswordPage() {
         </CardFooter>
       </form>
     </Card>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    }>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
